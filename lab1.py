@@ -60,12 +60,16 @@ def iniciarSesion():
         "Pablo1459": "P14o*.",
         "Ana3456": "A34a*",
     }
+    
+    for i in range(3):
+        user = input("Ingrese su nombre de usuario: ")
+        password = input("Ingrese su contraseña: ")
 
-    user = input("Ingrese su nombre de usuario: ")
-    password = input("Ingrese su contraseña: ")
-    
-    isCorrecto = credenciales[user] == password
-    
-    return "Acceso permitido" if isCorrecto else "Datos incorrectos"
-    
-    pass
+        isCorrecto = credenciales[user] == password
+        mensaje = "Acceso permitido" if isCorrecto else "Datos incorrectos"
+        print(mensaje)
+        
+        if isCorrecto:
+            return
+        
+    print("Lo siento, su acceso no es permitido")
