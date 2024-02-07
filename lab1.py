@@ -44,7 +44,6 @@ def contarPalabra():
             total += 1
     return total
 
-
 #Programa 3
 #   Tablas y diccionarios: Diseñe un programa que realice el control de acceso a una aplicación. El
 #   programa almacena los usuarios y contraseñas mostrados en la siguiente tabla. El programa solicita al usuario
@@ -59,7 +58,6 @@ def iniciarSesion():
         "Maria2345": "M23a*.",
         "Pablo1459": "P14o*.",
         "Ana3456": "A34a*",
-        "imlargo": "123",
     }
     
     for i in range(3):
