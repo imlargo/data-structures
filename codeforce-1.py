@@ -18,3 +18,20 @@ for i in range(int(input())):
     else:
         sumNeg += num
 print(f"positivos {sumPos}, negativos {sumNeg}")
+
+# 4. Los 4 fantásticos
+n = int(input())
+for d in [2, 3, 5, 7]:
+    if n % d == 0:
+        print(f"es multiplo de {d}")
+        exit()
+print("no es multiplo de ninguno de los primeros cuatro primos")
+
+
+# 5. Potencias menores
+n = int(input())
+limit = int(input())
+for p in range(limit):
+    r = n ** p
+    if r > limit:
+        break
