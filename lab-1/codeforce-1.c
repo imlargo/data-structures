@@ -1,5 +1,3 @@
-
-
 // 1. Encuentra el cuadrado
 #include <stdio.h>
 int main() {
