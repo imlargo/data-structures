@@ -31,7 +31,17 @@ print("no es multiplo de ninguno de los primeros cuatro primos")
 # 5. Potencias menores
 n = int(input())
 limit = int(input())
-for p in range(limit):
+for p in range(1, limit):
     r = n ** p
     if r > limit:
         break
+    print(r)
+
+# 6. Conjetura de Collatz
+n = int(input())
+while n > 1:
+    print(
+        int(n)
+    )
+    n = n / 2 if (n % 2 == 0) else (3 * n) + 1
+print(int(n))
