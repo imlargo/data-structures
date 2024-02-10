@@ -71,7 +71,23 @@ int main() {
 
 // 5. Potencias menores
 #include <stdio.h>
+#include <math.h>
 int main() {
+
+	double n, limit;
+	scanf("%d", &n);
+	scanf("%d", &limit);
+
+	for (double p = 1; p < limit; p++) {
+		
+		double r = pow(n, p);
+		if (r > limit) {
+			return 0;
+		} else {
+			printf("%d\n", (int)r);
+		}
+	}
+	
 	return 0;
 }
 
