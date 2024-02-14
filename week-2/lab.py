@@ -145,6 +145,7 @@ def main_1():
     direccion.setEdificio('Edificio 1')
     direccion.setApto('Apto 1')
 
+    print()
     print("Direccion:")
     print(
         direccion
@@ -157,6 +158,7 @@ def main_1():
     usuario.setTel('1234567890')
     usuario.setCiudad_nacimiento('Valledupar')
 
+    print()
     print("Usuario:")
     print(
         usuario
@@ -168,6 +170,7 @@ def main_2():
     
     nombre = input('Ingrese su nombre: ')
     idUsuario = input('Ingrese su id: ')
+    
     usuario = Usuario(
         nombre,
         idUsuario
@@ -183,6 +186,8 @@ def main_2():
         input('Ingrese su ciudad de nacimiento: ')
     )
 
+    print()
+    print("Informacion de nacimiento:")
     dia = int(input('Ingrese el dia de su fecha de nacimiento: '))
     mes = int(input('Ingrese el mes de su fecha de nacimiento: '))
     year = int(input('Ingrese el año de su fecha de nacimiento: '))
@@ -190,8 +195,12 @@ def main_2():
         dia, mes, year
     )
 
-    direccion = Direccion()
 
+
+    direccion = Direccion()
+    
+    print()
+    print("Informacion de direccion:")
     direccion.setCalle(
         input('Ingrese la calle de su direccion: ')
     )
@@ -215,7 +224,7 @@ def main_2():
     usuario.setDir(direccion)
 
     print(
-        direccion
+        usuario
     )
 
     pass
