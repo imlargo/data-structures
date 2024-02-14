@@ -1,120 +1,143 @@
 class Usuario:
     def __init__(self, nombre = None, idUsuario = None):
-        self.nombre = nombre
-        self.id = idUsuario
+        self._nombre = nombre
+        self._id = idUsuario
         
-        self.fecha_nacimiento = None
-        self.ciudad_nacimiento = None
-        self.tel = None
-        self.email = None
-        self.dir = None
+        self._fecha_nacimiento = None
+        self._ciudad_nacimiento = None
+        self._tel = None
+        self._email = None
+        self._dir = None
     
-    # Setter methods
+    # Setters
     def setNombre(self, nombre):
-        self.nombre = nombre
+        self._nombre = nombre
     def setId(self, id):
-        self.id = id
+        self._id = id
     def setFecha_nacimiento(self, fecha):
-        self.fecha_nacimiento = fecha
+        self._fecha_nacimiento = fecha
     def setCiudad_nacimiento(self, ciudad):
-        self.ciudad_nacimiento = ciudad
+        self._ciudad_nacimiento = ciudad
     def setTel(self, telefono):
-        self.tel = telefono
+        self._tel = telefono
     def setEmail(self, email):
-        self.email = email
+        self._email = email
     def setDir(self, dir):
-        self.dir = dir
+        self._dir = dir
     
-    # Getter methods
+    # Getters
     def getNombre(self):
-        return self.nombre
+        return self._nombre
     
     def getId(self):
-        return self.id
+        return self._id
     
     def getFecha_nacimiento(self):
-        return self.fecha_nacimiento
+        return self._fecha_nacimiento
     
     def getCiudad_nacimiento(self):
-        return self.ciudad_nacimiento
+        return self._ciudad_nacimiento
     
     def getTel(self):
-        return self.tel
+        return self._tel
     
     def getEmail(self):
-        return self.email
+        return self._email
     
     def getDir(self):
-        return self.dir
+        return self._dir
     
-    # String representation
+    # ToString
     def __str__(self):
-        return f'{self.nombre}, {self.id}, {self.fecha_nacimiento}, {self.ciudad_nacimiento}, {self.tel}, {self.email}, {self.dir}'
+        return f'{self._nombre}, {self._id}, {self._fecha_nacimiento}, {self._ciudad_nacimiento}, {self._tel}, {self._email}, {self._dir}'
     
+
 class Fecha:
-    def __init__(self, dd = None, mm = None, aa = None):
-        self.dd = dd
-        self.mm = mm
-        self.aa = aa
+    def __init__(self, dd = 16, mm = 7, aa = 2005):
+        self._dd = dd
+        self._mm = mm
+        self._aa = aa
         pass
 
     def setDia(self, dd):
-        self.dd = dd
+        self._dd = dd
     def setMes(self, mm):
-        self.mm = mm
+        self._mm = mm
     def setA(self, aa):
-        self.aa = aa
+        self._aa = aa
 
     def getDia(self):
-        return self.dd
+        return self._dd
     def getMes(self):
-        return self.mm
+        return self._mm
     def getA(self):
-        return self.aa
+        return self._aa
     
+    # ToString
     def __str__(self):
-        return f'{self.dd}/{self.mm}/{self.aa}'
+        return f'{self._dd}/{self._mm}/{self._aa}'
+    
+    
 class Direccion:
-    def __init__(self, calle = None, nomenclatura = None, barrio = None, ciudad = None, edificio = None, apto = None):
-        self.calle = calle
-        self.nomenclatura = nomenclatura
-        self.barrio = barrio
-        self.ciudad = ciudad
-        self.edificio = edificio
-        self.apto = apto
+    def __init__(self):
+        self._calle = None
+        self._nomenclatura = None
+        self._barrio = None
+        self._ciudad = None
+        self._edificio = None
+        self._apto = None
     
+    # Setters
     def setCalle(self, calle):
-        self.calle = calle
+        self._calle = calle
+        
     def setNomenclatura(self, n):
-        self.nomenclatura = n
+        self._nomenclatura = n
+
     def setBarrio(self, b):
-        self.barrio = b
+        self._barrio = b
+
     def setCiudad(self, ci):
-        self.ciudad = ci
+        self._ciudad = ci
+
     def setEdificio(self, e):
-        self.edificio = e
+        self._edificio = e
+
     def setApto(self, a):
-        self.apto = a
+        self._apto = a
+
+    # Getters
     def getCalle(self):
-        return self.calle
-    def getNomenclatura(self):
-        return self.nomenclatura
-    def getBarrio(self):
-        return self.barrio
-    def getCiudad(self):
-        return self.ciudad
-    def getEdificio(self):
-        return self.edificio
-    def getApto(self):
-        return self.apto
+        return self._calle
     
+    def getNomenclatura(self):
+        return self._nomenclatura
+    
+    def getBarrio(self):
+        return self._barrio
+    
+    def getCiudad(self):
+        return self._ciudad
+    
+    def getEdificio(self):
+        return self._edificio
+    
+    def getApto(self):
+        return self._apto
+    
+    # ToString
     def __str__(self):
-        return f'{self.calle}, {self.nomenclatura}, {self.barrio}, {self.ciudad}, {self.edificio}, {self.apto}'
+        return f'{self._calle}, {self._nomenclatura}, {self._barrio}, {self._ciudad}, {self._edificio}, {self._apto}'
 
-def app_1():
+
+def main_1():
     fecha = Fecha(16, 7, 2005)
-    direccion = Direccion()
+    print("Fecha:")
+    print(
+        fecha
+    )
 
+    direccion = Direccion()
     direccion.setCalle('Calle 1')
     direccion.setNomenclatura('Cra 1')
     direccion.setBarrio('Barrio 1')
@@ -122,6 +145,7 @@ def app_1():
     direccion.setEdificio('Edificio 1')
     direccion.setApto('Apto 1')
 
+    print("Direccion:")
     print(
         direccion
     )
@@ -129,48 +153,17 @@ def app_1():
     usuario = Usuario('Juan', 123)
     usuario.setFecha_nacimiento(fecha)
     usuario.setDir(direccion)
-    usuario.setEmail('imlargo')
+    usuario.setEmail('imlargo@unal')
     usuario.setTel('1234567890')
     usuario.setCiudad_nacimiento('Valledupar')
 
+    print("Usuario:")
     print(
         usuario
     )
     
-def app_2():
+def main_2():
     
-    dia = int(input('Ingrese el dia de su fecha de nacimiento: '))
-    mes = int(input('Ingrese el mes de su fecha de nacimiento: '))
-    year = int(input('Ingrese el año de su fecha de nacimiento: '))
-    fecha = Fecha(
-        dia, mes, year
-    )
-    
-    direccion = Direccion()
-
-    direccion.setCalle(
-        input('Ingrese la calle de su direccion: ')
-    )
-    direccion.setNomenclatura(
-        input('Ingrese la calle de su direccion: ')
-    )
-    direccion.setBarrio(
-        input('Ingrese la calle de su direccion: ')
-    )
-    direccion.setCiudad(
-        input('Ingrese la calle de su direccion: ')
-    )
-    direccion.setEdificio(
-        input('Ingrese la calle de su direccion: ')
-    )
-    direccion.setApto(
-        input('Ingrese la calle de su direccion: ')
-    )
-
-    print(
-        direccion
-    )
-
     print("Bienvenido! ingrese los datos para registrar un usuario")
     
     nombre = input('Ingrese su nombre: ')
@@ -179,8 +172,7 @@ def app_2():
         nombre,
         idUsuario
     )
-    usuario.setFecha_nacimiento(fecha)
-    usuario.setDir(direccion)
+
     usuario.setEmail(
         input('Ingrese su email: ')
     )
@@ -190,4 +182,40 @@ def app_2():
     usuario.setCiudad_nacimiento(
         input('Ingrese su ciudad de nacimiento: ')
     )
+
+    dia = int(input('Ingrese el dia de su fecha de nacimiento: '))
+    mes = int(input('Ingrese el mes de su fecha de nacimiento: '))
+    year = int(input('Ingrese el año de su fecha de nacimiento: '))
+    fecha = Fecha(
+        dia, mes, year
+    )
+
+    direccion = Direccion()
+
+    direccion.setCalle(
+        input('Ingrese la calle de su direccion: ')
+    )
+    direccion.setNomenclatura(
+        input('Ingrese la nomenclatura de su direccion: ')
+    )
+    direccion.setBarrio(
+        input('Ingrese el barrio de su direccion: ')
+    )
+    direccion.setCiudad(
+        input('Ingrese la ciudad de su direccion: ')
+    )
+    direccion.setEdificio(
+        input('Ingrese el edificio de su direccion: ')
+    )
+    direccion.setApto(
+        input('Ingrese el apartamento de su direccion: ')
+    )
+
+    usuario.setFecha_nacimiento(fecha)
+    usuario.setDir(direccion)
+
+    print(
+        direccion
+    )
+
     pass
