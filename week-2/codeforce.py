@@ -54,3 +54,13 @@ for x in range(int(input())):
             string += mensaje[lastIndex-(i+1)] + mensaje[lastIndex-i]
         string += mensaje[0]
     print(string)
+
+
+# 4. Recorrido arcoíris
+n = int(input())
+chars = input().split(", ")
+string = ""
+lastIndex = n-1
+for i in range(n//2):
+    string += chars[i] + chars[lastIndex-i]
+print(string)
