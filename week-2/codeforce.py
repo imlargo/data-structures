@@ -63,4 +63,44 @@ string = ""
 lastIndex = n-1
 for i in range(n//2):
     string += chars[i] + chars[lastIndex-i]
+string += chars[n//2] if n % 2 != 0 else ""
 print(string)
+
+# 5. Arte callejero
+n = int(input())
+for x in range(n):
+    datos = input().split(" ") # Integrantes y monedas
+    denominaciones =  input().split(" ")
+
+    maximo = int(denominaciones[0])
+    minimo = maximo
+    
+    valores = {}
+
+    for i in range(int(datos[1])):
+        valor = int(denominaciones[i])
+        modulo = str(i % int(datos[0]))
+        valores[modulo] = valores[modulo] + valor if (modulo in valores) else valor
+        acum = valores[modulo]
+        if acum > maximo:
+            maximo = acum
+        elif acum < minimo:
+            minimo = acum
+        
+# 4. Arte callejero
+n = int(input())
+for x in range(n):
+    datos = input().split(" ")
+    denominaciones =  input().split(" ")
+    valores = {}
+    for i in range(int(datos[1])):
+        modulo = str(i % int(datos[0]))
+        valores[modulo] = valores[modulo] + int(denominaciones[i]) if (modulo in valores) else int(denominaciones[i])
+    maximo = valores["0"]
+    minimo = maximo
+    for k in valores.values():
+        if k > maximo:
+            maximo = k
+        elif k < minimo:
+            minimo = k
+    print(maximo - minimo)
