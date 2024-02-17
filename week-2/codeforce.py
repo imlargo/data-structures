@@ -118,6 +118,6 @@ for x in range(n):
 
     while (-1 < i < len(tablero) or (i not in recorridos)):
         i = tableros[
-            tableros[i]
+            i + tableros[i]
         ]
         pass
