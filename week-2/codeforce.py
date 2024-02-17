@@ -104,3 +104,20 @@ for x in range(n):
         elif k < minimo:
             minimo = k
     print(maximo - minimo)
+
+
+# 6. Serpientes y escaleras
+n = int(input())
+for x in range(n):
+    size = int(input())
+    tablero = input().split(" ")
+    recorridos = []
+
+    i = int(tablero[0])
+    recorridos.append(i)
+
+    while (-1 < i < len(tablero) or (i not in recorridos)):
+        i = tableros[
+            tableros[i]
+        ]
+        pass
