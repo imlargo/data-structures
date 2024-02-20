@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Usuario:
     def __init__(self, nombre: str = None, idUsuario: str = None):
         self.nombre = nombre
@@ -114,6 +115,43 @@ class Direccion:
     def __str__(self):
         return f'{self.calle}, {self.nomenclatura}, {self.barrio}, {self.ciudad}, {self.edificio}, {self.apto}'
 
+
+
+class Utils:
+    
+    @classmethod
+    def convertStringToUser(cls, informacion: str) -> Usuario:
+        
+        # Estrucutra de la informacion de usuario: nombre, id, fecha_nacimiento, ciudad_nacimiento, tel, email, dir
+        datosUsuario = informacion.split(' - ')
+        
+        # Estructura de la fecha dd/mm/aa
+        fecha = cls.convertStringToDate(datosUsuario[2])
+        
+        # Estructura de la direccion: calle, nomenclatura, barrio, ciudad, edificio, apto
+        direccion = cls.convertStringToDireccion(datosUsuario[6])
+        
+        usuario = Usuario(datosUsuario[0], datosUsuario[1])
+        usuario.setFecha_nacimiento(fecha)
+        usuario.setCiudad_nacimiento(datosUsuario[3])
+        usuario.setTel(datosUsuario[4])
+        usuario.setEmail(datosUsuario[5])
+        usuario.setDir(direccion)
+        return usuario
+    
+    @classmethod
+    def convertStringToDate(cls, fecha: str) -> Fecha:
+        # Separar la fecha en dia, mes y año
+        datosFecha = fecha.split('/')
+        return Fecha(datosFecha[0], datosFecha[1], datosFecha[2])
+    
+    @classmethod
+    def convertStringToDireccion(cls, direccion: str) -> Direccion:
+        # Separar la direccion en sus componentes: calle, nomenclatura, barrio, ciudad, edificio, apto
+        datosDireccion = direccion.split(', ')
+        return Direccion(datosDireccion[0], datosDireccion[1], datosDireccion[2], datosDireccion[3], datosDireccion[4], datosDireccion[5])
+    
+    
 class Agenda:
     def __init__(self, capacidad: int = None):
         self._registro: List[Usuario] = []
@@ -171,30 +209,6 @@ class Agenda:
         datos = file.read().split('\n')
         
         for informacion in datos:
-
-            # Estrucutra de la informacion de usuario: nombre, id, fecha_nacimiento, ciudad_nacimiento, tel, email, dir
-            datosUsuario = informacion.split(' - ')
-            
-            # Estructura de la fecha dd/mm/aa
-            datosFecha = datosUsuario[2].split('/')
-            fecha = Fecha(datosFecha[0], datosFecha[1], datosFecha[2])
-            
-            # Estructura de la direccion: calle, nomenclatura, barrio, ciudad, edificio, apto
-            datosDireccion = datosUsuario[6].split(', ')
-            direccion = Direccion()
-            direccion.setCalle(datosDireccion[0])
-            direccion.setNomenclatura(datosDireccion[1])
-            direccion.setBarrio(datosDireccion[2])
-            direccion.setCiudad(datosDireccion[3])
-            direccion.setEdificio(datosDireccion[4])
-            direccion.setApto(datosDireccion[5])
-            
-            usuario = Usuario(datosUsuario[0], datosUsuario[1])
-            usuario.setFecha_nacimiento(fecha)
-            usuario.setCiudad_nacimiento(datosUsuario[3])
-            usuario.setTel(datosUsuario[4])
-            usuario.setEmail(datosUsuario[5])
-            usuario.setDir(direccion)
-            
+            usuario = Utils.convertStringToUser(informacion)
             self.agregar(usuario)
         pass
