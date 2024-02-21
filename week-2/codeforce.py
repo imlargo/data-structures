@@ -111,13 +111,9 @@ n = int(input())
 for x in range(n):
     size = int(input())
     tablero = input().split(" ")
-    recorridos = []
-
-    i = int(tablero[0])
-    recorridos.append(i)
-
-    while (-1 < i < len(tablero) or (i not in recorridos)):
-        i = tableros[
-            i + tableros[i]
-        ]
-        pass
+    recorridos = set()
+    i = 0
+    while (i > -1) and (i < size) and (i not in recorridos):
+        recorridos.add(i)
+        i += int(tablero[i])
+    print(len(recorridos))
