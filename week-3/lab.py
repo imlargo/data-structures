@@ -1,6 +1,5 @@
 from typing import List
 
-
 class Usuario:
     def __init__(self, nombre: str = None, idUsuario: str = None):
         self.nombre = nombre
@@ -115,8 +114,6 @@ class Direccion:
     def __str__(self):
         return f'{self.calle}, {self.nomenclatura}, {self.barrio}, {self.ciudad}, {self.edificio}, {self.apto}'
 
-
-
 class Utils:
     
     @classmethod
@@ -159,49 +156,42 @@ class Agenda:
         self._capacidad: int = capacidad
         pass
     
-    class Agenda:
-        def __init__(self, capacidad: int = None):
-            self._registro: List[Usuario] = []
-            self._no_reg: int = 0
-            self._capacidad: int = capacidad
-            pass
+    def agregar(self, usuario: Usuario) -> bool:
+        inAgenda = self.buscar(usuario.getId()) != -1
+        if (not inAgenda):
+            self._registro.append(usuario)
+            self._no_reg += 1
+            return True
+        else:
+            return False
+        pass
+    
+    def buscar(self, userId: str) -> int:
+        for i in range(len(self._registro)):
+            usuario = self._registro[i]
+            if  usuario.getId() == userId:
+                return i
+        return -1
         
-        def agregar(self, usuario: Usuario) -> bool:
-            inAgenda = self.buscar(usuario.getId()) != -1
-            if not inAgenda:
-                self._registro.append(usuario)
-                self._no_reg += 1
-                return True
-            else:
-                return False
-            pass
+    def eliminar(self, userId: str) -> bool:
+        index = self.buscar(userId)
         
-        def buscar(self, userId: str) -> int:
-            for i in range(len(self._registro)):
-                usuario = self._registro[i]
-                if  usuario.getId() == userId:
-                    return i
-            return -1
-            
-        def eliminar(self, userId: str) -> bool:
-            index = self.buscar(userId)
-            
-            if index != -1:
-                self._registro.pop(index)
-                self._no_reg -= 1
-                return True
-            else:
-                return False
-            pass
-        
-        def toFile(self) -> None:
-            texto = "\n".join(
-                map(lambda x: x.__str__(), self._registro)
-            )
-            file = open('agenda.txt', 'w')
-            file.write(texto)
-            file.close()
-            pass
+        if index == -1:
+            return False
+
+        self._registro.pop(index)
+        self._no_reg -= 1
+        return True
+    
+    def toFile(self) -> None:
+        texto = "\n".join(
+            map(lambda x: x.__str__(), self._registro)
+        )
+        file = open('agenda.txt', 'w')
+        file.write(texto)
+        file.close()
+        pass
+
     def importar(self):
         file = open('agenda.txt', 'r')
         file.close()
