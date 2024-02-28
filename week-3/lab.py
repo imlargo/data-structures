@@ -116,6 +116,10 @@ class Direccion:
 
 class Utils:
     
+    predefinidos = [
+        ""
+    ]
+
     @classmethod
     def convertStringToUser(cls, informacion: str) -> Usuario:
         
@@ -147,9 +151,9 @@ class Utils:
         # Separar la direccion en sus componentes: calle, nomenclatura, barrio, ciudad, edificio, apto
         datosDireccion = direccion.split(', ')
         return Direccion(datosDireccion[0], datosDireccion[1], datosDireccion[2], datosDireccion[3], datosDireccion[4], datosDireccion[5])
-    
-    
+
 class Agenda:
+
     def __init__(self, capacidad: int = None):
         self._registro: List[Usuario] = []
         self._no_reg: int = 0
@@ -202,3 +206,38 @@ class Agenda:
             usuario = Utils.convertStringToUser(informacion)
             self.agregar(usuario)
         pass
+
+
+def main_1():
+    # Inicializar 5 usuarios en una agenda con toda su información
+    agenda = Agenda(5)
+
+    for userString in Utils.predefinidos:
+        user = Utils.convertStringToUser(userString)
+        agenda.agregar(user)
+
+    # Buscar un usuario por su número de id e imprimir la posición
+    print(
+        agenda.buscar(123)
+    )
+
+    # Guardar los usuarios de la agenda en un archivo con el metodo toFile() 
+    agenda.toFile()
+    pass
+
+def main_2():
+    # Importar la agenda
+    agenda = Agenda(5)
+    agenda.importar()
+
+    # Imprimir en pantalla los 5 usuarios leídos
+    for usuario in agenda._registro:
+        print(usuario)
+        pass
+
+    # Eliminar un usuario dado su número de id
+    agenda.eliminar(123)
+
+    # Guardar los usuarios actualizados de la agenda con toFile()
+    agenda.toFile()
+    pass
