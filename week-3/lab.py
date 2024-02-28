@@ -15,7 +15,7 @@ class Usuario:
     def setNombre(self, nombre):
         self.nombre = nombre
     def setId(self, id):
-        self.id = id
+        self.id = int(id)
     def setFecha_nacimiento(self, fecha):
         self.fecha_nacimiento = fecha
     def setCiudad_nacimiento(self, ciudad):
@@ -51,7 +51,7 @@ class Usuario:
     
     # String representation
     def __str__(self):
-        return f'{self.nombre} - {self.id} - {self.fecha_nacimiento} - {self.ciudad_nacimiento} - {self.tel} - {self.email}, {self.dir}'
+        return f'{self.nombre} - {self.id} - {self.fecha_nacimiento} - {self.ciudad_nacimiento} - {self.tel} - {self.email} - {self.dir}'
     
 class Fecha:
     def __init__(self, dd = None, mm = None, aa = None):
@@ -117,12 +117,11 @@ class Direccion:
 class Utils:
     
     predefinidos = [
-        "Juan, 123, 16/7/2005, Valledupar, 123456789, imlargo@unal, Calle 6, Cra 6, Barrio Robledo, Ciudad 1, Edificio 1, Apto 100",
-        "Alejandra, 201, 16/7/2005, Valledupar, 987654321, aleja@unal, Calle 5, Cra 5, Barrio 1, Ciudad 1, Edificio 2, Apto 201",
-        "Harrison, 302, 16/7/2005, Valledupar, 12349876, harri@unal, Calle 4, Cra 4, Barrio 1, Ciudad 1, Edificio 3, Apto 302",
-        "JulianMoreno, 403, 16/7/2005, Valledupar, 98712340, juliangod@unal, Calle 3, Cra 3, Barrio 1, Ciudad 1, Edificio 4, Apto 403",
-        "TaylorSwift, 504, 16/7/2005, Valledupar, 19283745, imlargo@unal, Calle 2, Cra 2, Barrio 1, Ciudad 1, Edificio 5, Apto 504",
-        "Juan, 605, 16/7/2005, Valledupar, 13131313, imlargo@unal, Calle 1, Cra 1, Barrio 1, Ciudad 1, Edificio 6, Apto 605",
+        "Juan - 123 - 16/7/2005 - Valledupar - 123456789 - imlargo@unal - Calle 6, Cra 6, Barrio Robledo, Ciudad 1, Edificio 1, Apto 100",
+        "Alejandra - 201 - 16/7/2005 - Valledupar - 987654321 - aleja@unal - Calle 5, Cra 5, Barrio 1, Ciudad 1, Edificio 2, Apto 201",
+        "Harrison - 302 - 16/7/2005 - Valledupar - 12349876 - harri@unal - Calle 4, Cra 4, Barrio 1, Ciudad 1, Edificio 3, Apto 302",
+        "JulianMoreno - 403 - 16/7/2005 - Valledupar - 98712340 - juliangod@unal - Calle 3, Cra 3, Barrio 1, Ciudad 1, Edificio 4, Apto 403",
+        "TaylorSwift - 504 - 16/7/2005 - Valledupar - 19283745 - taylor@unal - Calle 2, Cra 2, Barrio 1, Ciudad 1, Edificio 5, Apto 504",
     ]
 
     @classmethod
@@ -137,7 +136,7 @@ class Utils:
         # Estructura de la direccion: calle, nomenclatura, barrio, ciudad, edificio, apto
         direccion = cls.convertStringToDireccion(datosUsuario[6])
         
-        usuario = Usuario(datosUsuario[0], datosUsuario[1])
+        usuario = Usuario(datosUsuario[0], int(datosUsuario[1]))
         usuario.setFecha_nacimiento(fecha)
         usuario.setCiudad_nacimiento(datosUsuario[3])
         usuario.setTel(datosUsuario[4])
@@ -149,7 +148,7 @@ class Utils:
     def convertStringToDate(cls, fecha: str) -> Fecha:
         # Separar la fecha en dia, mes y año
         datosFecha = fecha.split('/')
-        return Fecha(datosFecha[0], datosFecha[1], datosFecha[2])
+        return Fecha(int(datosFecha[0]), int(datosFecha[1]), int(datosFecha[2]))
     
     @classmethod
     def convertStringToDireccion(cls, direccion: str) -> Direccion:
@@ -202,10 +201,9 @@ class Agenda:
         pass
 
     def importar(self):
-        file = open('agenda.txt', 'r')
-        file.close()
-        
+        file = open('agenda.txt', 'r')        
         datos = file.read().split('\n')
+        file.close()
         
         for informacion in datos:
             usuario = Utils.convertStringToUser(informacion)
@@ -220,7 +218,7 @@ def main_1():
     for userString in Utils.predefinidos:
         user = Utils.convertStringToUser(userString)
         agenda.agregar(user)
-
+    
     # Buscar un usuario por su número de id e imprimir la posición
     print(
         agenda.buscar(123)
@@ -246,3 +244,6 @@ def main_2():
     # Guardar los usuarios actualizados de la agenda con toFile()
     agenda.toFile()
     pass
+
+main_1()
+main_2()
