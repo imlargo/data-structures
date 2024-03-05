@@ -163,7 +163,7 @@ class Agenda:
         self._no_reg: int = 0
         self._capacidad: int = capacidad
         pass
-    
+
     def agregar(self, usuario: Usuario) -> bool:
         inAgenda = self.buscar(usuario.getId()) != -1
         if (not inAgenda):
@@ -173,24 +173,25 @@ class Agenda:
         else:
             return False
         pass
-    
+
     def buscar(self, userId: str) -> int:
         for i in range(len(self._registro)):
             usuario = self._registro[i]
             if  usuario.getId() == userId:
                 return i
         return -1
-        
+
     def eliminar(self, userId: str) -> bool:
         index = self.buscar(userId)
-        
         if index == -1:
             return False
-
-        self._registro.pop(index)
+        for i in range(index + 1, self._no_reg):
+            self._registro[i-1] = self._registro[i]
+        self._registro[self._no_reg-1] = None
+        #self._registro.pop(self._no_reg-1)
         self._no_reg -= 1
         return True
-    
+
     def toFile(self) -> None:
         texto = "\n".join(
             map(lambda x: x.__str__(), self._registro)
