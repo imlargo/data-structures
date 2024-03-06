@@ -223,7 +223,6 @@ def main_1():
     for userString in Utils.predefinidos:
         user = Utils.convertStringToUser(userString)
         agenda.agregar(user)
-
     
     # Buscar un usuario por su número de id e imprimir la posición
     print(f"La posicion del usuario segun su id es: {agenda.buscar(504)}")
