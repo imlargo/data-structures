@@ -159,15 +159,15 @@ class Utils:
 class Agenda:
 
     def __init__(self, capacidad: int = None):
-        self._registro: List[Usuario] = []
+        self._registro: List[Usuario] = [ None for x in range(capacidad) ]
         self._no_reg: int = 0
         self._capacidad: int = capacidad
         pass
 
     def agregar(self, usuario: Usuario) -> bool:
         inAgenda = self.buscar(usuario.getId()) != -1
-        if (not inAgenda):
-            self._registro.append(usuario)
+        if (not inAgenda) and (self._no_reg < self._capacidad):
+            self._registro[self._no_reg] = usuario
             self._no_reg += 1
             return True
         else:
@@ -175,9 +175,11 @@ class Agenda:
         pass
 
     def buscar(self, userId: str) -> int:
-        for i in range(len(self._registro)):
-            usuario = self._registro[i]
-            if  usuario.getId() == userId:
+        for i in range(self._no_reg):
+            user = self._registro[i]
+            if user == None:
+                return -1
+            if user.getId() == userId:
                 return i
         return -1
 
@@ -185,17 +187,19 @@ class Agenda:
         index = self.buscar(userId)
         if index == -1:
             return False
+
         for i in range(index + 1, self._no_reg):
             self._registro[i-1] = self._registro[i]
+
         self._registro[self._no_reg-1] = None
-        #self._registro.pop(self._no_reg-1)
         self._no_reg -= 1
         return True
 
     def toFile(self) -> None:
-        texto = "\n".join(
-            map(lambda x: x.__str__(), self._registro)
-        )
+        texto = ""
+        for i in range(self._no_reg):
+            texto += f"{self._registro[i].__str__()}\n" if i < self._no_reg - 1 else f"{self._registro[i].__str__()}"
+        
         file = open('agenda.txt', 'w')
         file.write(texto)
         file.close()
@@ -219,6 +223,7 @@ def main_1():
     for userString in Utils.predefinidos:
         user = Utils.convertStringToUser(userString)
         agenda.agregar(user)
+
     
     # Buscar un usuario por su número de id e imprimir la posición
     print(
