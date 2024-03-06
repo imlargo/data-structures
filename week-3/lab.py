@@ -226,9 +226,7 @@ def main_1():
 
     
     # Buscar un usuario por su número de id e imprimir la posición
-    print(
-        agenda.buscar(504)
-    )
+    print(f"La posicion del usuario segun su id es: {agenda.buscar(504)}")
 
     # Guardar los usuarios de la agenda en un archivo con el metodo toFile() 
     agenda.toFile()
