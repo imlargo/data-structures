@@ -131,10 +131,10 @@ class DoubleList:
     def remove(self, node):
         data = node.getData()
         prev = node.getPrev()
-        next = node.getNext()
+        nextNode = node.getNext()
         
-        prev.setNext(next)
-        next.setPrev(prev)
+        prev.setNext(nextNode)
+        nextNode.setPrev(prev)
         self._size -= 1
         return data
         
@@ -162,8 +162,26 @@ def main_1():
     listaDoble.addFirst(2)
     for n in range(4, 21, 2):
         listaDoble.addLast(n)
+    
+    siguiente = listaDoble.first()
+    while siguiente != None:
+        print(siguiente.getData())
+        siguiente = siguiente.getNext()
         
-        
+    # Eliminar los números 1, 10 y 20
+    listaDoble.removeFirst()
+    listaDoble.removeLast()
+
+    print("Iniciando")
+
+    siguiente = listaDoble.first()
+    while siguiente != None:
+        if siguiente.getData() == 10:
+            listaDoble.remove(siguiente)
+            break
+        siguiente = siguiente.getNext()
+
+
     siguiente = listaDoble.first()
     while siguiente != None:
         print(siguiente.getData())
@@ -171,3 +189,5 @@ def main_1():
 
 def main_2():
     pass
+
+main_1()
