@@ -97,14 +97,13 @@ class DoubleList:
     
     def addFirst(self, data):
         node = DoubleNode(data)
-        node.setNext(self._head)
-        self._size += 1
-        
+        node.setNext(self._head)        
         if self.isEmpty():
             self._tail = node
         else:
             self._head.setPrev(node)
         self._head = node
+        self._size += 1
         pass
     
     def addLast(self, data):
