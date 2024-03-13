@@ -139,10 +139,23 @@ class DoubleList:
         return data
         
     def addAfter(self, node, data):
+        newNode = DoubleNode(data)
+        newNode.setNext(node.getNext())
+        newNode.setPrev(node)
+        node.setNext(newNode)
+        newNode.getNext().setPrev(newNode)
+        self._size += 1
         pass
+
     def addBefore(self, node, data):
+        newNode = DoubleNode(data)
+        newNode.setPrev(node.getPrev())
+        newNode.setNext(node)
+        
+        node.setPrev(newNode)
+        node.getPrev().setNext(newNode)
+        self._size += 1
         pass
-    
     
 def main_1():
     listaDoble = DoubleList()
