@@ -156,6 +156,55 @@ class Utils:
         datosDireccion = direccion.split(', ')
         return Direccion(datosDireccion[0], datosDireccion[1], datosDireccion[2], datosDireccion[3], datosDireccion[4], datosDireccion[5])
 
+    @classmethod
+    def createFromInput():
+
+        usuario = Usuario(
+            input('Ingrese su nombre: '),
+            input('Ingrese su id: ')
+        )
+        usuario.setCiudad_nacimiento(
+            input('Ingrese su ciudad de nacimiento: ')
+        )
+        usuario.setTel(
+            input('Ingrese su numero detelefono: ')
+        )
+        usuario.setEmail(input('Ingrese su correo electronico: '))  
+
+        # Fecha
+        fecha = Fecha(
+            int(input('Ingrese el dia de su fecha de nacimiento: ')),
+            int(input('Ingrese el mes de su fecha de nacimiento: ')),
+            int(input('Ingrese el año de su fecha de nacimiento: '))
+        )
+
+        # Direccion
+        direccion = Direccion()
+
+        print("Informacion de direccion:")
+        direccion.setCalle(
+            input('Ingrese la calle de su direccion: ')
+        )
+        direccion.setNomenclatura(
+            input('Ingrese la nomenclatura de su direccion: ')
+        )
+        direccion.setBarrio(
+            input('Ingrese el barrio de su direccion: ')
+        )
+        direccion.setCiudad(
+            input('Ingrese la ciudad de su direccion: ')
+        )
+        direccion.setEdificio(
+            input('Ingrese el edificio de su direccion: ')
+        )
+        direccion.setApto(
+            input('Ingrese el apartamento de su direccion: ')
+        )
+
+        usuario.setFecha_nacimiento(fecha)
+        usuario.setDir(direccion)
+        return usuario
+
 class Agenda:
 
     def __init__(self, capacidad: int = None):
@@ -277,7 +326,7 @@ class SimpleList:
         return self._head
     def last(self):
         return self._tail
-    
+
     def addFirst(self, data):
         node = SimpleNode(data)
         node.setNext(self._head)
@@ -297,7 +346,12 @@ class SimpleList:
         self._head = self._head.getNext()
         self._size -= 1
         return data
-    
+
+    def removeLast(self):
+        data = self._tail.getData()
+        self._tail = self.tail.getPrev()
+        self._size -= 1
+        return data
 
 class DoubleList:
     def __init__(self):
@@ -378,6 +432,30 @@ class DoubleList:
         pass
     
 def main_1():
+    # Con lista simple
+    listaSimple = SimpleList()
+    listaSimple.addFirst(2)
+    for n in range(4, 21, 2):
+        listaSimple.addLast(n)
+
+    siguiente = listaSimple.first()
+    while siguiente != None:
+        print(siguiente.getData())
+        siguiente = siguiente.getNext()
+
+    listaSimple.removeFirst()
+    listaSimple.removeLast()
+    siguiente = listaSimple.first()
+    while siguiente != None:
+        if siguiente.getData() == 10:
+            listaSimple.remove(siguiente)
+            break
+        siguiente = siguiente.getNext()
+
+
+    # Con lista doble
+
+
     listaDoble = DoubleList()
     listaDoble.addFirst(2)
     for n in range(4, 21, 2):
@@ -391,9 +469,6 @@ def main_1():
     # Eliminar los números 1, 10 y 20
     listaDoble.removeFirst()
     listaDoble.removeLast()
-
-    print("Iniciando")
-
     siguiente = listaDoble.first()
     while siguiente != None:
         if siguiente.getData() == 10:
@@ -421,5 +496,13 @@ def main_2():
     while node != None:
         print(node.getData())
         node = node.getNext()
+
+    # Get usuario 1
+    usuario = Utils.createFromInput()
+    listaDoble.addFirst(usuario)
+
+    # Get usuario 2
+    usuario = Utils.createFromInput()
+    listaDoble.addLast(usuario)
 
 main_1()
