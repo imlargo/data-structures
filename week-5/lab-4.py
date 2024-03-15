@@ -430,6 +430,13 @@ class DoubleList:
         node.getPrev().setNext(newNode)
         self._size += 1
         pass
+
+    def printData(self):
+        node = self._head
+        while node != None:
+            print(node.getData())
+            node = node.getNext()
+        pass
     
 def main_1():
     # Con lista simple
@@ -492,10 +499,7 @@ def main_2():
         user = Utils.convertStringToUser(userString)
         listaDoble.addLast(user)
 
-    node = listaDoble.first()
-    while node != None:
-        print(node.getData())
-        node = node.getNext()
+    listaDoble.printData()
 
     # Get usuario 1
     usuario = Utils.createFromInput()
@@ -505,4 +509,15 @@ def main_2():
     usuario = Utils.createFromInput()
     listaDoble.addLast(usuario)
 
+    listaDoble.printData()
+
+    # Pedir un usuario e insertarlo después del tercer nodo
+    usuario = Utils.createFromInput()
+
+    node = listaDoble.first()
+    for x in range(2):
+        node = node.getNext()
+    
+    listaDoble.addAfter(node, usuario)
+    
 main_1()
