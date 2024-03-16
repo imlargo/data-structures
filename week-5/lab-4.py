@@ -334,14 +334,20 @@ class SimpleList:
     def addFirst(self, data):
         node = SimpleNode(data)
         node.setNext(self._head)
+        if self.isEmpty():
+            self._tail = node
         self._head = node
         self._size += 1
         pass
     
     def addLast(self, data):
         node = SimpleNode(data)
-        self._tail.setNext(node)
-        self._tail = node
+        if self.isEmpty():
+            self._tail = node
+            self._head = node
+        else:
+            self._tail.setNext(node)
+            self._tail = node
         self._size += 1
         pass
     
@@ -350,6 +356,20 @@ class SimpleList:
         self._head = self._head.getNext()
         self._size -= 1
         return data
+
+    def removeLast(self):
+        if self.size() == 1:
+            return self.removeFirst()
+        else:
+            anterior = self._head
+            while anterior.getNext() != self._tail:
+                anterior = anterior.getNext()
+            
+            data = self._tail.getData()
+            anterior.setNext(None)
+            self._tail = anterior
+            self._size -= 1
+            return data
     
     def printData(self):
         node = self._head
@@ -448,39 +468,38 @@ class DoubleList:
     
 def main_1():
     # Con lista simple
+    print("Implementacion con lista simple")
     listaSimple = SimpleList()
     listaSimple.addFirst(2)
-    for n in range(4, 21, 2):
-        listaSimple.addLast(n)
+    [ listaSimple.addLast(n) for n in range(4, 21, 2) ]
 
-    siguiente = listaSimple.first()
-    while siguiente != None:
-        print(siguiente.getData())
-        siguiente = siguiente.getNext()
+    listaSimple.printData()
+
+    print("Despues de eliminar 2, 10, 20:")
 
     listaSimple.removeFirst()
     listaSimple.removeLast()
-    siguiente = listaSimple.first()
-    while siguiente != None:
-        if siguiente.getData() == 10:
-            listaSimple.remove(siguiente)
-            break
-        siguiente = siguiente.getNext()
+    
+    anterior = listaSimple.first()
+    while anterior.getNext().getData() != 10:
+        anterior = anterior.getNext()
+    
+    objetivo = anterior.getNext()
+    anterior.setNext(objetivo.getNext())
 
+    listaSimple.printData()
 
     # Con lista doble
-
+    print()
+    print("Implementacion con lista doble")
 
     listaDoble = DoubleList()
     listaDoble.addFirst(2)
-    for n in range(4, 21, 2):
-        listaDoble.addLast(n)
+    [ listaDoble.addLast(n) for n in range(4, 21, 2) ]
+
+    listaDoble.printData()
     
-    siguiente = listaDoble.first()
-    while siguiente != None:
-        print(siguiente.getData())
-        siguiente = siguiente.getNext()
-        
+    print("Despues de eliminar 2, 10, 20:")
     # Eliminar los números 1, 10 y 20
     listaDoble.removeFirst()
     listaDoble.removeLast()
@@ -492,10 +511,7 @@ def main_1():
         siguiente = siguiente.getNext()
 
 
-    siguiente = listaDoble.first()
-    while siguiente != None:
-        print(siguiente.getData())
-        siguiente = siguiente.getNext()
+    listaDoble.printData()
 
 def main_2():
     listaDoble = SimpleDoble()
