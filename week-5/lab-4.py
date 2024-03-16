@@ -514,12 +514,29 @@ def main_1():
     listaDoble.printData()
 
 def main_2():
-    listaDoble = SimpleDoble()
+    # Lista simple
+    listaSimple = SimpleList()
+    listaSimple.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
+    for userString in Utils.predefinidos[1:]:
+        user = Utils.convertStringToUser(userString)
+        listaSimple.addLast(user)
+
+    listaDoble.printData()
+
     listaDoble.addFirst(
-        Utils.convertStringToUser(Utils.predefinidos[0])
+        Utils.createFromInput()
     )
+    listaDoble.addLast(
+        Utils.createFromInput()
+    )
+
+    listaDoble.printData()
+
+    # Lista doble
+    listaDoble = SimpleDoble()
+    listaDoble.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
     
-    for userString in Utils.predefinidos:
+    for userString in Utils.predefinidos[1:]:
         user = Utils.convertStringToUser(userString)
         listaDoble.addLast(user)
 
