@@ -157,7 +157,7 @@ class Utils:
         return Direccion(datosDireccion[0], datosDireccion[1], datosDireccion[2], datosDireccion[3], datosDireccion[4], datosDireccion[5])
 
     @classmethod
-    def createFromInput():
+    def createFromInput(cls):
 
         usuario = Usuario(
             input('Ingrese su nombre: '),
@@ -514,12 +514,32 @@ def main_1():
     listaDoble.printData()
 
 def main_2():
-    # Lista simple
+    """# Lista simple
     listaSimple = SimpleList()
     listaSimple.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
     for userString in Utils.predefinidos[1:]:
+        listaSimple.addLast(
+            Utils.convertStringToUser(userString)
+        )
+
+    listaSimple.printData()
+
+    listaSimple.addFirst(
+        Utils.createFromInput()
+    )
+    listaSimple.addLast(
+        Utils.createFromInput()
+    )
+
+    listaSimple.printData()
+"""
+    # Lista doble
+    listaDoble = DoubleList()
+    listaDoble.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
+    
+    for userString in Utils.predefinidos[1:]:
         user = Utils.convertStringToUser(userString)
-        listaSimple.addLast(user)
+        listaDoble.addLast(user)
 
     listaDoble.printData()
 
@@ -532,26 +552,6 @@ def main_2():
 
     listaDoble.printData()
 
-    # Lista doble
-    listaDoble = SimpleDoble()
-    listaDoble.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
-    
-    for userString in Utils.predefinidos[1:]:
-        user = Utils.convertStringToUser(userString)
-        listaDoble.addLast(user)
-
-    listaDoble.printData()
-
-    # Get usuario 1
-    usuario = Utils.createFromInput()
-    listaDoble.addFirst(usuario)
-
-    # Get usuario 2
-    usuario = Utils.createFromInput()
-    listaDoble.addLast(usuario)
-
-    listaDoble.printData()
-
     # Pedir un usuario e insertarlo después del tercer nodo
     usuario = Utils.createFromInput()
 
@@ -560,5 +560,8 @@ def main_2():
         node = node.getNext()
     
     listaDoble.addAfter(node, usuario)
+
+    listaDoble.printData()
     
 main_1()
+main_2()
