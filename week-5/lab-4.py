@@ -350,13 +350,6 @@ class SimpleList:
         self._head = self._head.getNext()
         self._size -= 1
         return data
-
-    def removeLast(self):
-        data = self._tail.getData()
-        self._tail = self.tail.getPrev()
-        self._tail.setNext(None)
-        self._size -= 1
-        return data
     
     def printData(self):
         node = self._head
