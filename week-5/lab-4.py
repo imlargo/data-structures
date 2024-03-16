@@ -282,8 +282,8 @@ class SimpleNode:
     def setData(self, data):
         self.data = data
         
-    def setNext(self, next):
-        self._next = next
+    def setNext(self, nextNode):
+        self._next = nextNode
 
 class DoubleNode:
     def __init__(self, data = None):
@@ -304,8 +304,8 @@ class DoubleNode:
     def getPrev(self):
         return self._prev
         
-    def setNext(self, next):
-        self._next = next
+    def setNext(self, nextNode):
+        self._next = nextNode
         
     def setPrev(self, prev):
         self._prev = prev
@@ -318,12 +318,16 @@ class SimpleList:
         
     def size(self):
         return self._size
+    
     def isEmpty(self):
         return self._size == 0
+    
     def setSize(self, size):
         self._size = size
+
     def first(self):
         return self._head
+    
     def last(self):
         return self._tail
 
@@ -350,8 +354,16 @@ class SimpleList:
     def removeLast(self):
         data = self._tail.getData()
         self._tail = self.tail.getPrev()
+        self._tail.setNext(None)
         self._size -= 1
         return data
+    
+    def printData(self):
+        node = self._head
+        while node != None:
+            print(node.getData())
+            node = node.getNext()
+        pass
 
 class DoubleList:
     def __init__(self):
@@ -359,7 +371,7 @@ class DoubleList:
         self._tail = None
         self._size = 0
         
-    def Size(self):
+    def size(self):
         return self._size
     
     def isEmpty(self):
@@ -404,30 +416,33 @@ class DoubleList:
 
     def remove(self, node):
         data = node.getData()
+
         prev = node.getPrev()
         nextNode = node.getNext()
-        
         prev.setNext(nextNode)
         nextNode.setPrev(prev)
+
         self._size -= 1
         return data
         
     def addAfter(self, node, data):
         newNode = DoubleNode(data)
-        newNode.setNext(node.getNext())
         newNode.setPrev(node)
+        newNode.setNext(node.getNext())
+
+        node.getNext().setPrev(newNode)
         node.setNext(newNode)
-        newNode.getNext().setPrev(newNode)
         self._size += 1
         pass
 
     def addBefore(self, node, data):
         newNode = DoubleNode(data)
-        newNode.setPrev(node.getPrev())
+
         newNode.setNext(node)
-        
-        node.setPrev(newNode)
+        newNode.setPrev(node.getPrev())
+
         node.getPrev().setNext(newNode)
+        node.setPrev(newNode)
         self._size += 1
         pass
 
