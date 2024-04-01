@@ -676,60 +676,83 @@ class Sistema:
     
     def __init__(self):
         self.gestionUsuarios = GestionUsuarios()
-        self.currentUser = self.iniciarSesion()
         
-        print(f'Bienvenido al sistema {self.currentUser.getNombre()}')
-        print(f"Rol: {self.currentUser.getRol()}")
-        
-        # Mostrar opciones
-        if self.currentUser.isAdmin:
-            self.menuAdmin()
-        else:
-            self.menuEmpleado()
-        
+        while True:
+            self.currentUser = self.iniciarSesion()
+            
+            if self.currentUser == None:
+                print('Usuario o contraseña incorrectos')
+                continue
+            
+            print(f'Bienvenido al sistema {self.currentUser.getNombre()}')
+            print(f"Rol: {self.currentUser.getRol()}")
+
+            # Mostrar opciones
+            if self.currentUser.isAdmin:
+                self.menuAdmin()
+            else:
+                self.menuEmpleado()
         pass
     
     def menuAdmin(self):
-        print('--- Menu de administrador ---')
-        print('1. Enviar mensaje')
-        print('2. Leer mensajes')
-        
-        print('3. Registrar empleado')
-        print('4. Eliminar empleado')
-        print('5. Cambiar contraseña')
-        
-        option = input('Ingrese la opcion: ')
-        match option:
-            case '1':
-                self.menuMensaje()
-            case '2':
-                self.leerMensajes()
-            case '3':
-                self.registrarEmpleado()
-            case '4':
-                self.eliminarEmpleado()
-            case '5':
-                self.cambiarContrasena()
-            case _:
-                print('Opcion no valida')
+        while True:
+            print('--- Menu de administrador ---')
+            print('1. Enviar mensaje')
+            print('2. Leer mensajes')
+
+            print('3. Registrar empleado')
+            print('4. Eliminar empleado')
+            print('5. Cambiar contraseña')
+
+            print('6. Cerrar sesion')
+            print('7. Salir')
+
+            option = input('Ingrese la opcion: ')
+            match option:
+                case '1':
+                    self.menuMensaje()
+                case '2':
+                    self.leerMensajes()
+                case '3':
+                    self.registrarEmpleado()
+                case '4':
+                    self.eliminarEmpleado()
+                case '5':
+                    self.cambiarContrasena()
+                case '6':
+                    return
+                case '7':
+                    print('Saliendo del sistema, hasta luego!')
+                    exit()
+                case _:
+                    print('Opcion no valida')
         pass
     
     
     
     def menuEmpleado(self):
-        print('--- Menu de empleado ---')
-        print('1. Enviar mensaje')
-        print('2. Leer mensajes')
-        
-        option = input('Ingrese la opcion: ')
-        match option:
-            case '1':
-                self.menuMensaje()
-            case '2':
-                self.leerMensajes()
-            case _:
-                print('Opcion no valida')
-        pass
+        while True:
+            print('--- Menu de empleado ---')
+            print('1. Enviar mensaje')
+            print('2. Leer mensajes')
+
+            print('3. Cerrar sesion')
+            print('4. Salir')
+
+            option = input('Ingrese la opcion: ')
+            match option:
+                case '1':
+                    self.menuMensaje()
+                case '2':
+                    self.leerMensajes()
+                case '3':
+                    return
+                case '4':
+                    print('Saliendo del sistema, hasta luego!')
+                    exit()
+                case _:
+                    print('Opcion no valida')
+            pass
     
     def menuMensaje(self):
         print('--- Enviar mensaje ---')
@@ -770,7 +793,10 @@ class Sistema:
             print('El usuario no existe')
             return None
         
-        return usuario if usuario.getPassword() == password else None
+        if usuario.getPassword() == password:
+            return usuario
+        
+        return None
     
     def registrarEmpleado(self):
         empleado = Utils.createFromInput()
@@ -807,6 +833,4 @@ class Sistema:
     
     pass
 
-def main():
-    sistema = Sistema()
-    pass
+Sistema()
