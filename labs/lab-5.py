@@ -160,17 +160,17 @@ class Utils:
     @classmethod
     def createFromInput(cls):
 
-        usuario = Usuario(
+        empleado = Empleado(
             input('Ingrese su nombre: '),
             input('Ingrese su id: ')
         )
-        usuario.setCiudad_nacimiento(
+        empleado.setCiudad_nacimiento(
             input('Ingrese su ciudad de nacimiento: ')
         )
-        usuario.setTel(
+        empleado.setTel(
             input('Ingrese su numero detelefono: ')
         )
-        usuario.setEmail(input('Ingrese su correo electronico: '))  
+        empleado.setEmail(input('Ingrese su correo electronico: '))  
 
         # Fecha
         fecha = Fecha(
@@ -202,9 +202,9 @@ class Utils:
             input('Ingrese el apartamento de su direccion: ')
         )
 
-        usuario.setFecha_nacimiento(fecha)
-        usuario.setDir(direccion)
-        return usuario
+        empleado.setFecha_nacimiento(fecha)
+        empleado.setDir(direccion)
+        return empleado
 
 class Agenda:
 
@@ -585,6 +585,52 @@ class GestionUsuarios:
         self._empleados = self.cargarEmpleados()
         pass
     
+    def addEmpleado(self, empleado):
+        self._empleados.addLast(empleado)
+        self.sortEmpleados()
+        pass
+    
+    def eliminarEmpleado(self, userId):
+        pass
+    
+    def sortEmpleados(self):
+        empleados = []
+        
+        # Convertir la lista en un arreglo
+        node = self._empleados.first()
+        while node != None:
+            empleados.append(node.getData())
+            node = node.getNext()
+            
+        # Ordenamiento de burbuja
+        for i in range(len(empleados)):
+            for j in range(len(empleados)-1):
+                if empleados[j].getId() > empleados[j+1].getId():
+                    empleados[j], empleados[j+1] = empleados[j+1], empleados[j]
+                    
+                    
+        # Convertir arreglo en lista enlazada
+        listaEmpleados = DoubleList()
+        [listaEmpleados.addLast(empleado) for empleado in empleados]
+            
+        self._empleados = listaEmpleados
+        pass
+    
+    def guardarEmpleados(self):
+        fileEmpleados = open('Empleados.txt', 'w')
+        filePasswords = open('Password.txt', 'w')
+        
+        node = self._empleados.first()
+        while node != None:
+            empleado = node.getData()
+            fileEmpleados.write(f'{empleado.__str__()}\n')
+            filePasswords.write(f'{empleado.getId()},{empleado.getPassword()},{empleado.getRol()}\n')
+            node = node.getNext()
+        
+        fileEmpleados.close()
+        filePasswords.close()
+        pass
+    
     def cargarEmpleados(self):
         fileEmpleados = open('Empleados.txt', 'r')
         filePasswords = open('Password.txt', 'r')
@@ -644,40 +690,74 @@ class Sistema:
         pass
     
     def menuAdmin(self):
-        print('Menu de administrador')
-        print('1. Registrar empleado')
+        print('--- Menu de administrador ---')
+        print('1. Enviar mensaje')
+        print('2. Leer mensajes')
         
+        print('3. Registrar empleado')
+        print('4. Eliminar empleado')
+        print('5. Cambiar contraseña')
+        
+        option = input('Ingrese la opcion: ')
+        match option:
+            case '1':
+                self.menuMensaje()
+            case '2':
+                self.leerMensajes()
+            case '3':
+                self.registrarEmpleado()
+            case '4':
+                self.eliminarEmpleado()
+            case '5':
+                self.cambiarContrasena()
+            case _:
+                print('Opcion no valida')
         pass
     
+    
+    
     def menuEmpleado(self):
-        print('Menu de empleado')
+        print('--- Menu de empleado ---')
         print('1. Enviar mensaje')
+        print('2. Leer mensajes')
+        
+        option = input('Ingrese la opcion: ')
+        match option:
+            case '1':
+                self.menuMensaje()
+            case '2':
+                self.leerMensajes()
+            case _:
+                print('Opcion no valida')
         pass
     
     def menuMensaje(self):
-        documento = input('Ingrese el documento del destinatario: ')
+        print('--- Enviar mensaje ---')
         
+        documento = input('Ingrese el documento del destinatario: ')
         titulo = input('Ingrese el titulo del mensaje: ')
         contenido = input('Ingrese el contenido del mensaje: ')
         
         destinatario = self.gestionUsuarios.buscarEmpleado(documento)
         
         # Enviar el mensaje
-        self.currentUser._bandeja.enviarMensaje(titulo, contenido, destinatario)
+        self.currentUser._bandeja.enviarMensaje(
+            titulo,
+            contenido,
+            destinatario,
+        )
+        
+        print(f'Mensaje enviado a {destinatario.getNombre()}')
         pass
     
     def leerMensajes(self):
-        print('Bandeja de entrada:')
+        print('--- Bandeja de entrada ---')
         self.currentUser._bandeja.mostrarMensajes()
         
         option = input('Desea leer un mensaje? (s/n): ')
         if option == 's':
             n = int(input('Ingrese el numero del mensaje: '))
             self.currentUser._bandeja.showMensaje(n)
-            pass
-        else:
-            return None
-        
         pass
     
     def iniciarSesion(self):
@@ -693,6 +773,36 @@ class Sistema:
         return usuario if usuario.getPassword() == password else None
     
     def registrarEmpleado(self):
+        empleado = Utils.createFromInput()
+        print()
+        
+        password = input('Ingrese la contraseña: ')
+        empleado.setPassword(password)
+        
+        rol = input('Ingrese el rol: ')
+        empleado.setRol(rol)
+        
+        empleado.setGestionUsuarios(self.gestionUsuarios)
+        
+        self.gestionUsuarios.addEmpleado(empleado)
+        self.gestionUsuarios.guardarEmpleados()
+        pass
+    
+    def eliminarEmpleado(self):
+        pass
+    
+    def cambiarPassword(self):
+        documento = input('Ingrese el documento del usuario: ')
+        
+        empleado = self.gestionUsuarios.buscarEmpleado(documento)
+        if empleado == None:
+            print('El usuario no existe')
+            return
+        
+        password = input('Ingrese la nueva contraseña: ')
+        empleado.setPassword(password)
+        self.gestionUsuarios.guardarEmpleados()
+        
         pass
     
     pass
