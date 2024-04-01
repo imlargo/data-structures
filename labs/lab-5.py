@@ -475,7 +475,7 @@ class Empleado(Usuario):
         self._password: str = None
         self._rol: str = None
         
-        self._isAdmin = None
+        self.isAdmin = None
         self._bandeja = Bandeja(self)
         pass
     
@@ -487,7 +487,7 @@ class Empleado(Usuario):
         self._password = password
     def setRol(self, rol):
         self._rol = rol
-        self._isAdmin = (rol == 'administrador')
+        self.isAdmin = (rol == 'administrador')
     pass
 
 class Mensaje:
@@ -508,10 +508,39 @@ class Bandeja:
         self._mensajes = DoubleList()
         pass
     
-    def enviarMensaje(self, titulo, mensaje, destinatario):
+    def addMensaje(self, mensaje):
+        self._mensajes.addLast(mensaje)
+        pass
+    
+    def mostrarMensajes(self):
+        i = 1
+        node = self._mensajes.first()
+        while node != None:
+            mensaje = node.getData()
+            print(f"{i}. Fecha: {mensaje._fecha}, Titulo: {mensaje._titulo}, Remitente: {mensaje._remitente.getNombre()}")
+            i += 1
+            node = node.getNext()
+        pass
+    
+    def showMensaje(self, n):
+        node = self._mensajes.first()
         
+        if n == 1:
+            mensaje = node.getData()
+            print(f"Fecha: {mensaje._fecha}\nTitulo: {mensaje._titulo}\nContenido: {mensaje._contenido}")
+            return
+            
+        for i in range(n-1):
+            node = node.getNext()
+
+        mensaje = node.getData()
+        print(f"Fecha: {mensaje._fecha}\nTitulo: {mensaje._titulo}\nContenido: {mensaje._contenido}")
+        pass
+    
+    def enviarMensaje(self, titulo, mensaje, destinatario):
+
         mensaje = Mensaje(titulo, mensaje, self._usuario, destinatario)
-        destinatario._bandeja._mensajes.addLast(mensaje)
+        destinatario._bandeja.addMensaje(mensaje)
         pass
     
     pass
@@ -550,23 +579,76 @@ class GestionUsuarios:
         filePasswords.close()
             
         return empleados
+    
+    def buscarEmpleado(self, userId):
+        node = self._empleados.first()
+        while node != None:
+            empleado = node.getData()
+            if empleado.getId() == userId:
+                return empleado
+            node = node.getNext()
+        
+        return None
 
 class Sistema:
     
     def __init__(self):
+        self.gestionUsuarios = GestionUsuarios()
+        self.currentUser = self.iniciarSesion()
+        
+        print(f'Bienvenido al sistema {self.currentUser.getNombre()}')
+        print(f"Rol: {self.currentUser.getRol()}")
+        
+        # Mostrar opciones
+        if self.currentUser.isAdmin:
+            self.menuAdmin()
+        else:
+            self.menuEmpleado()
         
         pass
     
+    def menuAdmin(self):
+        print('Menu de administrador')
+        print('1. Registrar empleado')
+        
+        pass
     
+    def menuEmpleado(self):
+        print('Menu de empleado')
+        print('1. Enviar mensaje')
+        pass
     
-    def ordenar(self):
+    def menuMensaje(self):
+        documento = input('Ingrese el documento del destinatario: ')
+        
+        titulo = input('Ingrese el titulo del mensaje: ')
+        contenido = input('Ingrese el contenido del mensaje: ')
+        
+        destinatario = self.gestionUsuarios.buscarEmpleado(documento)
+        
+        # Enviar el mensaje
+        self.currentUser._bandeja.enviarMensaje(titulo, contenido, destinatario)
+        pass
+    
+    def leerMensajes(self):
+        print('Bandeja de entrada:')
+        self.currentUser._bandeja.mostrarMensajes()
+        
+        option = input('Desea leer un mensaje? (s/n): ')
+        if option == 's':
+            n = int(input('Ingrese el numero del mensaje: '))
+            self.currentUser._bandeja.showMensaje(n)
+            pass
+        else:
+            return None
+        
         pass
     
     def iniciarSesion(self):
         documento = int(input('Ingrese su documento: '))
         password = input('Ingrese su contraseña: ')
         
-        usuario = self.buscarEmpleado(documento)
+        usuario = self.gestionUsuarios.buscarEmpleado(documento)
         
         if usuario == None:
             print('El usuario no existe')
@@ -577,4 +659,8 @@ class Sistema:
     def registrarEmpleado(self):
         pass
     
+    pass
+
+def main():
+    sistema = Sistema()
     pass
