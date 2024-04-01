@@ -477,6 +477,8 @@ class Empleado(Usuario):
         
         self.isAdmin = None
         self._bandeja = Bandeja(self)
+        
+        self.gestionUsuarios = None
         pass
     
     def getPassword(self):
@@ -488,17 +490,17 @@ class Empleado(Usuario):
     def setRol(self, rol):
         self._rol = rol
         self.isAdmin = (rol == 'administrador')
+    def setGestionUsuarios(self, gestionUsuarios):
+        self.gestionUsuarios = gestionUsuarios
     pass
 
 class Mensaje:
-    def __init__(self, titulo, contenido, remitente, destinatario):
+    def __init__(self, titulo, contenido, remitente, destinatario, fecha):
         self._titulo = titulo
         self._contenido = contenido
         self._remitente = remitente
         self._destinatario = destinatario
-        
-        # Automaticamente asignar fecha
-        self._fecha = time.strftime('%d/%m/%Y - %H:%M:%S')
+        self._fecha = fecha
     pass
 
 class Bandeja:
@@ -506,6 +508,8 @@ class Bandeja:
     def __init__(self, usuario):
         self._usuario = usuario
         self._mensajes = DoubleList()
+
+        self.importar()
         pass
     
     def addMensaje(self, mensaje):
@@ -539,10 +543,40 @@ class Bandeja:
     
     def enviarMensaje(self, titulo, mensaje, destinatario):
 
-        mensaje = Mensaje(titulo, mensaje, self._usuario, destinatario)
+        # Automaticamente asignar fecha
+        mensaje = Mensaje(
+            titulo,
+            mensaje,
+            self._usuario,
+            destinatario,
+            time.strftime('%d/%m/%Y - %H:%M:%S')
+        )
         destinatario._bandeja.addMensaje(mensaje)
         pass
     
+    def export(self):
+        
+        file = open(f'{self._usuario.getId()}BA.txt', 'w')
+        file.write("\n".join(
+            [
+                f'{mensaje._titulo} - {mensaje._contenido} - {mensaje._remitente.getNombre()} - {mensaje._destinatario.getNombre()} - {mensaje._fecha}'
+                for mensaje in self._mensajes
+            ]
+        ))
+        file.close()
+        pass
+    
+    def importar(self):
+        file = open(f'{self._usuario.getId()}BA.txt', 'r')
+        datos = file.read().split('\n')
+        file.close()
+        
+        for informacion in datos:
+            datosMensaje = informacion.split(' - ')
+            
+            destinatario = self._usuario.gestionUsuarios.buscarEmpleado(datosMensaje[3])
+            mensaje = Mensaje(datosMensaje[0], datosMensaje[1], datosMensaje[2], destinatario, datosMensaje[4])
+            self._mensajes.addLast(mensaje)
     pass
 
 class GestionUsuarios:
@@ -568,6 +602,8 @@ class GestionUsuarios:
             # userId = datosPassword[0]
             empleado.setPassword(datosPassword[1])
             empleado.setRol(datosPassword[2])
+            
+            empleado.setGestionUsuarios(self)
             
             if i == 0:
                 empleados.addFirst(empleado)
