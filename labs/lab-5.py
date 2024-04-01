@@ -591,6 +591,9 @@ class GestionUsuarios:
         pass
     
     def eliminarEmpleado(self, userId):
+        nodo = self.buscarNodoEmpleado(userId)
+        
+        self._empleados.remove(nodo)
         pass
     
     def sortEmpleados(self):
@@ -670,6 +673,14 @@ class GestionUsuarios:
                 return empleado
             node = node.getNext()
         
+        return None
+    
+    def buscarNodoEmpleado(self, userId):
+        node = self._empleados.first()
+        while node != None:
+            if node.getData().getId() == userId:
+                return node
+            node = node.getNext()
         return None
 
 class Sistema:
@@ -815,6 +826,8 @@ class Sistema:
         pass
     
     def eliminarEmpleado(self):
+        documento = input('Ingrese el documento del usuario: ')
+        self.gestionUsuarios.guardarEmpleados()
         pass
     
     def cambiarPassword(self):
