@@ -163,7 +163,7 @@ class Utils:
 
         empleado = Empleado(
             input('Ingrese su nombre: '),
-            input('Ingrese su id: ')
+            int(input('Ingrese su id: '))
         )
         empleado.setCiudad_nacimiento(
             input('Ingrese su ciudad de nacimiento: ')
@@ -374,6 +374,13 @@ class DoubleList:
         return data
 
     def remove(self, node):
+        
+        if node == self._head:
+            return self.removeFirst()
+        
+        if node == self._tail:
+            return self.removeLast()
+        
         data = node.getData()
 
         prev = node.getPrev()
@@ -480,7 +487,7 @@ class Bandeja:
         node = self._mensajes.first()
         while node != None:
             mensaje = node.getData()
-            print(f"{i}. Fecha: {mensaje._fecha}, Titulo: {mensaje._titulo}, Remitente: {mensaje._remitente.getNombre()}")
+            print(f"    {i}. Fecha: {mensaje._fecha}, Titulo: {mensaje._titulo}, Remitente: {mensaje._remitente.getNombre()}")
             i += 1
             node = node.getNext()
         pass
@@ -490,15 +497,31 @@ class Bandeja:
         
         if n == 1:
             mensaje = node.getData()
-            print(f"Fecha: {mensaje._fecha}\nTitulo: {mensaje._titulo}\nContenido: {mensaje._contenido}")
+            print(f"    Fecha: {mensaje._fecha}\n    Titulo: {mensaje._titulo}\n    Contenido: {mensaje._contenido}")
             return
             
         for i in range(n-1):
             node = node.getNext()
 
         mensaje = node.getData()
-        print(f"Fecha: {mensaje._fecha}\nTitulo: {mensaje._titulo}\nContenido: {mensaje._contenido}")
+        print(f"    Fecha: {mensaje._fecha}\n    Titulo: {mensaje._titulo}\n    Contenido: {mensaje._contenido}")
         pass
+    
+    
+    def borrarMensaje(self, n):
+        if n == 1:
+            self._mensajes.removeFirst()
+            self.export()
+            return
+        
+        node = self._mensajes.first()
+        for i in range(n-1):
+            node = node.getNext()
+        
+        self._mensajes.remove(node)
+        self.export()
+        pass
+    
     
     def enviarMensaje(self, titulo, mensaje, destinatario):
 
@@ -557,7 +580,7 @@ class GestionUsuarios:
         pass
     
     def eliminarEmpleado(self, userId):
-        nodo = self.buscarNodoEmpleado(userId)
+        nodo = self.buscarNodoEmpleado(int(userId))
         self._empleados.remove(nodo)
         self.guardarEmpleados()
         pass
@@ -586,15 +609,22 @@ class GestionUsuarios:
         pass
     
     def guardarEmpleados(self):
+        
         fileEmpleados = open('Empleados.txt', 'w')
         filePasswords = open('Password.txt', 'w')
+        
+        dataEmpleados = []
+        dataPasswords = []
         
         node = self._empleados.first()
         while node != None:
             empleado = node.getData()
-            fileEmpleados.write(f'{empleado.__str__()}\n')
-            filePasswords.write(f'{empleado.getId()},{empleado.getPassword()},{empleado.getRol()}\n')
+            dataEmpleados.append(f'{empleado.__str__()}')
+            dataPasswords.append(f'{empleado.getId()},{empleado.getPassword()},{empleado.getRol()}')
             node = node.getNext()
+            
+        fileEmpleados.write('\n'.join(dataEmpleados))
+        filePasswords.write('\n'.join(dataPasswords))
         
         fileEmpleados.close()
         filePasswords.close()
@@ -647,6 +677,7 @@ class GestionUsuarios:
     
     def buscarNodoEmpleado(self, userId):
         node = self._empleados.first()
+        
         while node != None:
             if node.getData().getId() == userId:
                 return node
@@ -679,7 +710,7 @@ class Sistema:
         while True:
             print('--- Menu de administrador ---')
             print('1. Enviar mensaje')
-            print('2. Leer mensajes')
+            print('2. Revisar bandeja de entrada')
 
             print('3. Registrar empleado')
             print('4. Eliminar empleado')
@@ -693,13 +724,13 @@ class Sistema:
                 case '1':
                     self.menuMensaje()
                 case '2':
-                    self.leerMensajes()
+                    self.revisarBandeja()
                 case '3':
                     self.registrarEmpleado()
                 case '4':
                     self.eliminarEmpleado()
                 case '5':
-                    self.cambiarContrasena()
+                    self.cambiarPassword()
                 case '6':
                     return
                 case '7':
@@ -709,13 +740,11 @@ class Sistema:
                     print('Opcion no valida')
         pass
     
-    
-    
     def menuEmpleado(self):
         while True:
             print('--- Menu de empleado ---')
             print('1. Enviar mensaje')
-            print('2. Leer mensajes')
+            print('2. Revisar bandeja de entrada')
 
             print('3. Cerrar sesion')
             print('4. Salir')
@@ -725,7 +754,7 @@ class Sistema:
                 case '1':
                     self.menuMensaje()
                 case '2':
-                    self.leerMensajes()
+                    self.revisarBandeja()
                 case '3':
                     return
                 case '4':
@@ -751,17 +780,31 @@ class Sistema:
             destinatario,
         )
         
-        print(f'Mensaje enviado a {destinatario.getNombre()}')
+        print(f'    > Mensaje enviado a {destinatario.getNombre()}')
         pass
     
-    def leerMensajes(self):
+    def revisarBandeja(self):
         print('--- Bandeja de entrada ---')
         self.currentUser._bandeja.mostrarMensajes()
+        print(". . . . . . . . . .")
         
-        option = input('Desea leer un mensaje? (s/n): ')
-        if option == 's':
-            n = int(input('Ingrese el numero del mensaje: '))
-            self.currentUser._bandeja.showMensaje(n)
+        print("1. Leer mensaje")
+        print("2. Borrar mensaje")
+        print("3. Salir")
+        
+        option = input('Ingrese la opcion:')
+        
+        match option:
+            case '1':
+                n = int(input('Ingrese el numero del mensaje: '))
+                self.currentUser._bandeja.showMensaje(n)
+            case '2':
+                n = int(input('Ingrese el numero del mensaje: '))
+                self.currentUser._bandeja.borrarMensaje(n)
+            case '3':
+                return
+            case _:
+                print('Opcion no valida')
         pass
     
     def iniciarSesion(self):
@@ -790,8 +833,8 @@ class Sistema:
         empleado.setRol(rol)
         
         empleado.setGestionUsuarios(self.gestionUsuarios)
-        
         self.gestionUsuarios.addEmpleado(empleado)
+        empleado.initBandeja()
         pass
     
     def eliminarEmpleado(self):
@@ -809,6 +852,7 @@ class Sistema:
         
         password = input('Ingrese la nueva contraseña: ')
         empleado.setPassword(password)
+        self.gestionUsuarios.sortEmpleados()
         self.gestionUsuarios.guardarEmpleados()
         
         pass
