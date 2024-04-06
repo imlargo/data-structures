@@ -1,5 +1,6 @@
 from typing import List
 import time
+import os
 
 class Usuario:
     def __init__(self, nombre: str = None, idUsuario: str = None):
@@ -206,65 +207,6 @@ class Utils:
         empleado.setDir(direccion)
         return empleado
 
-class Agenda:
-
-    def __init__(self, capacidad: int = None):
-        self._registro: List[Usuario] = [ None for x in range(capacidad) ]
-        self._no_reg: int = 0
-        self._capacidad: int = capacidad
-        pass
-
-    def agregar(self, usuario: Usuario) -> bool:
-        inAgenda = self.buscar(usuario.getId()) != -1
-        if (not inAgenda) and (self._no_reg < self._capacidad):
-            self._registro[self._no_reg] = usuario
-            self._no_reg += 1
-            return True
-        else:
-            return False
-        pass
-
-    def buscar(self, userId: str) -> int:
-        for i in range(self._no_reg):
-            user = self._registro[i]
-            if user == None:
-                return -1
-            if user.getId() == userId:
-                return i
-        return -1
-
-    def eliminar(self, userId: str) -> bool:
-        index = self.buscar(userId)
-        if index == -1:
-            return False
-
-        for i in range(index + 1, self._no_reg):
-            self._registro[i-1] = self._registro[i]
-
-        self._registro[self._no_reg-1] = None
-        self._no_reg -= 1
-        return True
-
-    def toFile(self) -> None:
-        texto = ""
-        for i in range(self._no_reg):
-            texto += f"{self._registro[i].__str__()}\n" if i < self._no_reg - 1 else f"{self._registro[i].__str__()}"
-        
-        file = open('agenda.txt', 'w')
-        file.write(texto)
-        file.close()
-        pass
-
-    def importar(self):
-        file = open('agenda.txt', 'r')        
-        datos = file.read().split('\n')
-        file.close()
-        
-        for informacion in datos:
-            usuario = Utils.convertStringToUser(informacion)
-            self.agregar(usuario)
-        pass
-
 #....
 
 class SimpleNode:
@@ -406,6 +348,10 @@ class DoubleList:
         pass
     
     def addLast(self, data):
+        
+        if self.isEmpty():
+            return self.addFirst(data)
+        
         node = DoubleNode(data)
         node.setPrev(self._tail)
         self._tail.setNext(node)
@@ -468,7 +414,7 @@ class DoubleList:
 
 
 class Empleado(Usuario):
-    
+
     def __init__(self, nombre: str = None, idUsuario: str = None):
         super().__init__(nombre, idUsuario)
         
@@ -476,9 +422,12 @@ class Empleado(Usuario):
         self._rol: str = None
         
         self.isAdmin = None
-        self._bandeja = Bandeja(self)
-        
         self.gestionUsuarios = None
+        self._bandeja = None
+        pass
+    
+    def initBandeja(self):
+        self._bandeja = Bandeja(self)
         pass
     
     def getPassword(self):
@@ -501,6 +450,15 @@ class Mensaje:
         self._remitente = remitente
         self._destinatario = destinatario
         self._fecha = fecha
+        
+    def __str__(self) -> str:
+        return f"{self._titulo} ; {self._contenido} ; {self._remitente.getId()} ; {self._destinatario.getId()} ; {self._fecha}"
+    
+    @classmethod
+    def fromString(cls, informacion: str, remitente: Empleado):
+        datosMensaje = informacion.split(' ; ')
+        destinatario = remitente.gestionUsuarios.buscarEmpleado(datosMensaje[3])
+        return cls(datosMensaje[0], datosMensaje[1], remitente, destinatario, datosMensaje[4])
     pass
 
 class Bandeja:
@@ -514,6 +472,7 @@ class Bandeja:
     
     def addMensaje(self, mensaje):
         self._mensajes.addLast(mensaje)
+        self.export()
         pass
     
     def mostrarMensajes(self):
@@ -556,26 +515,31 @@ class Bandeja:
     
     def export(self):
         
+        data = []
+        
+        node = self._mensajes.first()
+        while node != None:
+            mensaje = node.getData()
+            data.append(mensaje.__str__())
+            node = node.getNext()
+
         file = open(f'{self._usuario.getId()}BA.txt', 'w')
-        file.write("\n".join(
-            [
-                f'{mensaje._titulo} - {mensaje._contenido} - {mensaje._remitente.getNombre()} - {mensaje._destinatario.getNombre()} - {mensaje._fecha}'
-                for mensaje in self._mensajes
-            ]
-        ))
+        file.write('\n'.join(data))
         file.close()
         pass
     
     def importar(self):
+        
+        # Comprobar si el archivo existe
+        if not os.path.exists(f'{self._usuario.getId()}BA.txt'):
+            return None
+        
         file = open(f'{self._usuario.getId()}BA.txt', 'r')
         datos = file.read().split('\n')
         file.close()
         
         for informacion in datos:
-            datosMensaje = informacion.split(' - ')
-            
-            destinatario = self._usuario.gestionUsuarios.buscarEmpleado(datosMensaje[3])
-            mensaje = Mensaje(datosMensaje[0], datosMensaje[1], datosMensaje[2], destinatario, datosMensaje[4])
+            mensaje = Mensaje.fromString(informacion, self._usuario)
             self._mensajes.addLast(mensaje)
     pass
 
@@ -583,17 +547,19 @@ class GestionUsuarios:
     
     def __init__(self):
         self._empleados = self.cargarEmpleados()
+        self.initBandejas()
         pass
     
     def addEmpleado(self, empleado):
         self._empleados.addLast(empleado)
         self.sortEmpleados()
+        self.guardarEmpleados()
         pass
     
     def eliminarEmpleado(self, userId):
         nodo = self.buscarNodoEmpleado(userId)
-        
         self._empleados.remove(nodo)
+        self.guardarEmpleados()
         pass
     
     def sortEmpleados(self):
@@ -638,12 +604,12 @@ class GestionUsuarios:
         fileEmpleados = open('Empleados.txt', 'r')
         filePasswords = open('Password.txt', 'r')
         
-        datos = zip(fileEmpleados.read().split('\n'), filePasswords.read().split('\n'))
+        dataEmpleados = fileEmpleados.read().split('\n')
+        dataPasswords = filePasswords.read().split('\n')
         
         empleados = DoubleList()
         
-        for i in len(datos):
-            infoUser, infoPassword = datos[i]
+        for infoUser, infoPassword in zip(dataEmpleados, dataPasswords):
             
             empleado = Utils.convertStringToUser(infoUser)
             datosPassword = infoPassword.split(',')
@@ -653,23 +619,27 @@ class GestionUsuarios:
             empleado.setRol(datosPassword[2])
             
             empleado.setGestionUsuarios(self)
-            
-            if i == 0:
-                empleados.addFirst(empleado)
-                continue
-            
             empleados.addLast(empleado)
             
         fileEmpleados.close()
         filePasswords.close()
-            
+
         return empleados
     
-    def buscarEmpleado(self, userId):
+    def initBandejas(self):
         node = self._empleados.first()
         while node != None:
             empleado = node.getData()
-            if empleado.getId() == userId:
+            empleado.initBandeja()
+            node = node.getNext()
+        pass
+    
+    def buscarEmpleado(self, userId):
+        node = self._empleados.first()
+        
+        while node != None:
+            empleado = node.getData()
+            if empleado.getId() == int(userId):
                 return empleado
             node = node.getNext()
         
@@ -822,12 +792,11 @@ class Sistema:
         empleado.setGestionUsuarios(self.gestionUsuarios)
         
         self.gestionUsuarios.addEmpleado(empleado)
-        self.gestionUsuarios.guardarEmpleados()
         pass
     
     def eliminarEmpleado(self):
         documento = input('Ingrese el documento del usuario: ')
-        self.gestionUsuarios.guardarEmpleados()
+        self.gestionUsuarios.eliminarEmpleado(documento)
         pass
     
     def cambiarPassword(self):
