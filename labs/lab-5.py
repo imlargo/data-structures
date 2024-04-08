@@ -581,9 +581,14 @@ class GestionUsuarios:
     
     def eliminarEmpleado(self, userId):
         nodo = self.buscarNodoEmpleado(int(userId))
+        
+        if nodo == None:
+            return False
+
         self._empleados.remove(nodo)
         self.guardarEmpleados()
-        pass
+
+        return True
     
     def sortEmpleados(self):
         empleados = []
@@ -711,13 +716,14 @@ class Sistema:
             print('--- Menu de administrador ---')
             print('1. Enviar mensaje')
             print('2. Revisar bandeja de entrada')
-
             print('3. Registrar empleado')
             print('4. Eliminar empleado')
             print('5. Cambiar contraseña')
 
             print('6. Cerrar sesion')
             print('7. Salir')
+
+            print(". . . . . . . . . . ")
 
             option = input('Ingrese la opcion: ')
             match option:
@@ -745,11 +751,14 @@ class Sistema:
             print('--- Menu de empleado ---')
             print('1. Enviar mensaje')
             print('2. Revisar bandeja de entrada')
-
             print('3. Cerrar sesion')
             print('4. Salir')
 
+            print(". . . . . . . . . . ")
+
             option = input('Ingrese la opcion: ')
+            print()
+
             match option:
                 case '1':
                     self.menuMensaje()
@@ -772,6 +781,10 @@ class Sistema:
         contenido = input('Ingrese el contenido del mensaje: ')
         
         destinatario = self.gestionUsuarios.buscarEmpleado(documento)
+
+        if not destinatario:
+            print(f'\n    > No existe ningun empleado con documento {documento}\n')
+            return
         
         # Enviar el mensaje
         self.currentUser._bandeja.enviarMensaje(
@@ -780,11 +793,11 @@ class Sistema:
             destinatario,
         )
         
-        print(f'    > Mensaje enviado a {destinatario.getNombre()}')
+        print(f'\n    > Mensaje enviado a {destinatario.getNombre()}\n')
         pass
     
     def revisarBandeja(self):
-        print('--- Bandeja de entrada ---')
+        print('--- Bandeja de entrada ---\n')
         self.currentUser._bandeja.mostrarMensajes()
         print(". . . . . . . . . .")
         
@@ -792,15 +805,18 @@ class Sistema:
         print("2. Borrar mensaje")
         print("3. Salir")
         
-        option = input('Ingrese la opcion:')
+        option = input('Ingrese la opcion: ')
         
         match option:
             case '1':
                 n = int(input('Ingrese el numero del mensaje: '))
+                print()
                 self.currentUser._bandeja.showMensaje(n)
+                print()
             case '2':
                 n = int(input('Ingrese el numero del mensaje: '))
                 self.currentUser._bandeja.borrarMensaje(n)
+                print("\nMensaje borrado con exito\n")
             case '3':
                 return
             case _:
@@ -835,11 +851,17 @@ class Sistema:
         empleado.setGestionUsuarios(self.gestionUsuarios)
         self.gestionUsuarios.addEmpleado(empleado)
         empleado.initBandeja()
+
+        print("Empleado registrado con exito!")
         pass
     
     def eliminarEmpleado(self):
         documento = input('Ingrese el documento del usuario: ')
-        self.gestionUsuarios.eliminarEmpleado(documento)
+        response = self.gestionUsuarios.eliminarEmpleado(documento)
+        
+        print(
+            "Usuario eliminado con exito" if response == True else "El usuario no existe"
+        )
         pass
     
     def cambiarPassword(self):
@@ -854,7 +876,7 @@ class Sistema:
         empleado.setPassword(password)
         self.gestionUsuarios.sortEmpleados()
         self.gestionUsuarios.guardarEmpleados()
-        
+
         pass
     
     pass
