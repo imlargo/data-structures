@@ -6,7 +6,6 @@ class Usuario:
     def __init__(self, nombre: str = None, idUsuario: str = None):
         self.nombre = nombre
         self.id = idUsuario
-        
         self.fecha_nacimiento: Fecha = None
         self.ciudad_nacimiento: str = None
         self.tel: str = None

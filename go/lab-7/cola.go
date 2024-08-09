@@ -10,8 +10,9 @@ func (cola *Cola[T]) getSize() int {
 func (cola *Cola[T]) isEmpty() bool {
 	return cola.lista.isEmpty()
 }
-func (cola *Cola[T]) enqueue(data *NodoSimple[T]) {
-	cola.lista.addLast(data)
+func (cola *Cola[T]) enqueue(data T) {
+	var nodo NodoSimple[T] = NodoSimple[T]{data: data}
+	cola.lista.addLast(&nodo)
 }
 func (cola *Cola[T]) dequeue() T {
 	data := cola.lista.removeFirst()

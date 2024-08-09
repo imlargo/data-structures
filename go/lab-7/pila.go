@@ -14,7 +14,6 @@ func (pila *Pila[T]) push(data T) {
 	nodo := NodoSimple[T]{data: data}
 	pila.lista.addFirst(&nodo)
 }
-
 func (pila *Pila[T]) pop() T {
 	data := pila.lista.removeFirst()
 	return data

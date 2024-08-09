@@ -1,27 +1,70 @@
 package main
 
 func main() {
-	// Usar lista simple
-	listaSimple := ListaSimple[int]{}
-	listaSimple.addFirst(&NodoSimple[int]{data: 1})
-	listaSimple.addLast(&NodoSimple[int]{data: 2})
-	listaSimple.addLast(&NodoSimple[int]{data: 3})
-	listaSimple.addLast(&NodoSimple[int]{data: 4})
-	listaSimple.addLast(&NodoSimple[int]{data: 5})
+	problema1()
+	problema2()
+	problema3()
+}
 
-	// Recorrer lista simple
-	for nodo := listaSimple.first(); nodo != nil; nodo = nodo.getNext() {
-		println(nodo.getData())
+func problema1() {
+
+	println("Pila con los valores enteros 2-4-6-8-10, imprima en pantalla la pila haciendo uso del método pop() de forma sucesiva")
+
+	var pila Pila[int] = Pila[int]{lista: &ListaSimple[int]{}}
+	pila.push(2)
+	pila.push(4)
+	pila.push(6)
+	pila.push(8)
+	pila.push(10)
+
+	for !pila.isEmpty() {
+		println(pila.pop())
+	}
+}
+
+func problema2() {
+	println("Cola con los valores enteros 2-4-6-8-10, imprima en pantalla la pila haciendo uso del método dequeue() de forma sucesiva.")
+
+	var cola Cola[int] = Cola[int]{lista: &ListaSimple[int]{}}
+
+	cola.enqueue(2)
+	cola.enqueue(4)
+	cola.enqueue(6)
+	cola.enqueue(8)
+	cola.enqueue(10)
+
+	for !cola.isEmpty() {
+		println(cola.dequeue())
+	}
+}
+
+func problema3() {
+
+	println("Turno de usuarios: ")
+
+	// Ingrese 5 usuarios en la cola e invoque el método toFile() o Invoque el método atenderSiguiente() dos veces y vuelva a llamar el método toFile()
+	var turnoUsuario TurnoUsuario = TurnoUsuario{
+		registro:          &Cola[User]{lista: &ListaSimple[User]{}},
+		usuariosAtendidos: &Pila[User]{lista: &ListaSimple[User]{}},
 	}
 
-	listaSimple.removeFirst()
-	listaSimple.removeLast()
+	turnoUsuario.registrar(User{nombre: "Juan", id: "001"})
+	turnoUsuario.registrar(User{nombre: "Aleja", id: "002"})
+	turnoUsuario.registrar(User{nombre: "Jose", id: "003"})
+	turnoUsuario.registrar(User{nombre: "Valdi", id: "004"})
+	turnoUsuario.registrar(User{nombre: "Chicha", id: "005"})
+	turnoUsuario.registrar(User{nombre: "Alejo", id: "005"})
 
-	println("Eliminados")
+	turnoUsuario.toFile()
+	// Recorrer lista simple de usuarios pendientes
+	println("Usuarios pendientes: ", turnoUsuario.registro.getSize())
+	println("Usuarios atendidos: ", turnoUsuario.usuariosAtendidos.getSize())
 
-	// Recorrer lista simple
-	for nodo := listaSimple.first(); nodo != nil; nodo = nodo.getNext() {
-		println(nodo.getData())
-	}
+	turnoUsuario.atenderSiguiente()
+	turnoUsuario.atenderSiguiente()
 
+	println("Usuarios pendientes: ", turnoUsuario.registro.getSize())
+	println("Usuarios atendidos: ", turnoUsuario.usuariosAtendidos.getSize())
+
+	turnoUsuario.toFile()
 }
