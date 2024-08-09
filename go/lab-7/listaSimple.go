@@ -65,25 +65,43 @@ func (listaSimple *ListaSimple[T]) addLast(nodo *NodoSimple[T]) {
 	listaSimple.size++
 }
 
-func (listaSimple *ListaSimple[T]) removeFirst() {
+func (listaSimple *ListaSimple[T]) removeFirst() T {
 	if !listaSimple.isEmpty() {
+		data := listaSimple.head.getData()
 		listaSimple.head = listaSimple.head.getNext()
 		listaSimple.size--
+		return data
 	}
+	var zeroValue T
+	return zeroValue
 }
-func (listaSimple *ListaSimple[T]) removeLast() {
+
+func (listaSimple *ListaSimple[T]) removeLast() T {
 	if !listaSimple.isEmpty() {
 		if listaSimple.size == 1 {
+
+			data := listaSimple.head.getData()
+
 			listaSimple.head = nil
 			listaSimple.tail = nil
+			listaSimple.size--
+
+			return data
 		} else {
+			data := listaSimple.tail.getData()
+
 			current := listaSimple.head
 			for current.getNext() != listaSimple.tail {
 				current = current.getNext()
 			}
 			current.setNext(nil)
 			listaSimple.tail = current
+			listaSimple.size--
+
+			return data
 		}
-		listaSimple.size--
 	}
+
+	var zeroValue T
+	return zeroValue
 }
