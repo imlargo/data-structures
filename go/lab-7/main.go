@@ -1,5 +1,4 @@
 package main
-import "lista_simple/listaSimple"
 
 func main() {
 	// Usar lista simple
@@ -11,7 +10,7 @@ func main() {
 	listaSimple.addLast(&NodoSimple[int]{data: 5})
 
 	// Recorrer lista simple
-	for nodo := listaSimple.First(); nodo != nil; nodo = nodo.getNext() {
+	for nodo := listaSimple.first(); nodo != nil; nodo = nodo.getNext() {
 		println(nodo.getData())
 	}
 
@@ -21,7 +20,7 @@ func main() {
 	println("Eliminados")
 
 	// Recorrer lista simple
-	for nodo := listaSimple.First(); nodo != nil; nodo = nodo.getNext() {
+	for nodo := listaSimple.first(); nodo != nil; nodo = nodo.getNext() {
 		println(nodo.getData())
 	}
 

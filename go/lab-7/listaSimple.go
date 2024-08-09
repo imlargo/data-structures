@@ -35,11 +35,11 @@ func (listaSimple *ListaSimple[T]) isEmpty() bool {
 	return listaSimple.size == 0
 }
 
-func (listaSimple *ListaSimple[T]) First() *NodoSimple[T] {
+func (listaSimple *ListaSimple[T]) first() *NodoSimple[T] {
 	return listaSimple.head
 }
 
-func (listaSimple *ListaSimple[T]) Last() *NodoSimple[T] {
+func (listaSimple *ListaSimple[T]) last() *NodoSimple[T] {
 	return listaSimple.tail
 }
 
