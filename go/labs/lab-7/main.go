@@ -1,6 +1,7 @@
 package main
 
 import (
+	"data-structures/structures/heap"
 	"math/rand/v2"
 )
 
@@ -22,17 +23,17 @@ func main() {
 
 	println("\n\n")
 
-	var heap Heap[int] = Heap[int]{data: data, size: cantidad}
+	var heap heap.Heap[int] = heap.Heap[int]{Data: data, Size: cantidad}
 
-	heap.build_max_heap()
+	heap.Build_max_heap()
 
 	// Imprimir el arreglo
 	println("Max heap: ")
-	for i := 0; i < heap.size; i++ {
-		print(heap.data[i], ", ")
+	for i := 0; i < heap.Size; i++ {
+		print(heap.Data[i], ", ")
 	}
 
 	println("\n\n")
 
-	println("Heap size: ", heap.getSize())
+	println("Heap size: ", heap.GetSize())
 }
