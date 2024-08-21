@@ -1,6 +1,7 @@
 from typing import List
 import time
 import os
+import sys
 
 class Usuario:
     def __init__(self, nombre: str = None, idUsuario: str = None):
@@ -740,7 +741,7 @@ class Sistema:
                     return
                 case '7':
                     print('Saliendo del sistema, hasta luego!')
-                    exit()
+                    sys.exit()
                 case _:
                     print('Opcion no valida')
         pass
