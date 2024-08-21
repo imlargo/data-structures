@@ -205,68 +205,6 @@ class Utils:
         usuario.setDir(direccion)
         return usuario
 
-class Agenda:
-
-    def __init__(self, capacidad: int = None):
-        self._registro: List[Usuario] = [ None for x in range(capacidad) ]
-        self._no_reg: int = 0
-        self._capacidad: int = capacidad
-        pass
-
-    def agregar(self, usuario: Usuario) -> bool:
-        inAgenda = self.buscar(usuario.getId()) != -1
-        if (not inAgenda) and (self._no_reg < self._capacidad):
-            self._registro[self._no_reg] = usuario
-            self._no_reg += 1
-            return True
-        else:
-            return False
-        pass
-
-    def buscar(self, userId: str) -> int:
-        for i in range(self._no_reg):
-            user = self._registro[i]
-            if user == None:
-                return -1
-            if user.getId() == userId:
-                return i
-        return -1
-
-    def eliminar(self, userId: str) -> bool:
-        index = self.buscar(userId)
-        if index == -1:
-            return False
-
-        for i in range(index + 1, self._no_reg):
-            self._registro[i-1] = self._registro[i]
-
-        self._registro[self._no_reg-1] = None
-        self._no_reg -= 1
-        return True
-
-    def toFile(self) -> None:
-        texto = ""
-        for i in range(self._no_reg):
-            texto += f"{self._registro[i].__str__()}\n" if i < self._no_reg - 1 else f"{self._registro[i].__str__()}"
-        
-        file = open('agenda.txt', 'w')
-        file.write(texto)
-        file.close()
-        pass
-
-    def importar(self):
-        file = open('agenda.txt', 'r')        
-        datos = file.read().split('\n')
-        file.close()
-        
-        for informacion in datos:
-            usuario = Utils.convertStringToUser(informacion)
-            self.agregar(usuario)
-        pass
-
-
-#....
-
 class SimpleNode:
     def __init__(self, data = None):
         self.data = data
@@ -465,7 +403,69 @@ class DoubleList:
             print(node.getData())
             node = node.getNext()
         pass
-    
+
+# ...
+class Agenda:
+
+    def __init__(self, capacidad: int = None):
+        self._registro: List[Usuario] = [ None for x in range(capacidad) ]
+        self._no_reg: int = 0
+        self._capacidad: int = capacidad
+        pass
+
+    def agregar(self, usuario: Usuario) -> bool:
+        inAgenda = self.buscar(usuario.getId()) != -1
+        if (not inAgenda) and (self._no_reg < self._capacidad):
+            self._registro[self._no_reg] = usuario
+            self._no_reg += 1
+            return True
+        else:
+            return False
+        pass
+
+    def buscar(self, userId: str) -> int:
+        for i in range(self._no_reg):
+            user = self._registro[i]
+            if user == None:
+                return -1
+            if user.getId() == userId:
+                return i
+        return -1
+
+    def eliminar(self, userId: str) -> bool:
+        index = self.buscar(userId)
+        if index == -1:
+            return False
+
+        for i in range(index + 1, self._no_reg):
+            self._registro[i-1] = self._registro[i]
+
+        self._registro[self._no_reg-1] = None
+        self._no_reg -= 1
+        return True
+
+    def toFile(self) -> None:
+        texto = ""
+        for i in range(self._no_reg):
+            texto += f"{self._registro[i].__str__()}\n" if i < self._no_reg - 1 else f"{self._registro[i].__str__()}"
+        
+        file = open('agenda.txt', 'w')
+        file.write(texto)
+        file.close()
+        pass
+
+    def importar(self):
+        file = open('agenda.txt', 'r')        
+        datos = file.read().split('\n')
+        file.close()
+        
+        for informacion in datos:
+            usuario = Utils.convertStringToUser(informacion)
+            self.agregar(usuario)
+        pass
+
+
+
 def main_1():
     # Con lista simple
     print("Implementacion con lista simple")

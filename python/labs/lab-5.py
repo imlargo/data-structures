@@ -419,7 +419,6 @@ class DoubleList:
             node = node.getNext()
         pass
 
-
 class Empleado(Usuario):
 
     def __init__(self, nombre: str = None, idUsuario: str = None):
