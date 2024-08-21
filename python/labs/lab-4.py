@@ -470,20 +470,23 @@ def main_1():
     # Con lista simple
     print("Implementacion con lista simple")
     listaSimple = SimpleList()
-    listaSimple.addFirst(2)
-    [ listaSimple.addLast(n) for n in range(4, 21, 2) ]
+    listaSimple.addFirst(1)
+    
+    for n in range(2, 21, 2):
+        listaSimple.addLast(n) 
 
     listaSimple.printData()
 
     print("Despues de eliminar 2, 10, 20:")
 
-    listaSimple.removeFirst()
-    listaSimple.removeLast()
+    listaSimple.removeFirst() # Remover el 1
+    listaSimple.removeLast() # Remover el 20
     
     anterior = listaSimple.first()
     while anterior.getNext().getData() != 10:
         anterior = anterior.getNext()
     
+    # Remover el 10
     objetivo = anterior.getNext()
     anterior.setNext(objetivo.getNext())
 
@@ -494,33 +497,32 @@ def main_1():
     print("Implementacion con lista doble")
 
     listaDoble = DoubleList()
-    listaDoble.addFirst(2)
-    [ listaDoble.addLast(n) for n in range(4, 21, 2) ]
+    listaDoble.addFirst(1)
+    for n in range(2, 21, 2):
+      listaDoble.addLast(n)  
 
     listaDoble.printData()
     
     print("Despues de eliminar 2, 10, 20:")
-    # Eliminar los números 1, 10 y 20
-    listaDoble.removeFirst()
-    listaDoble.removeLast()
+    listaDoble.removeFirst() # Remover el 1
+    listaDoble.removeLast() # Remover el 20
     siguiente = listaDoble.first()
     while siguiente != None:
         if siguiente.getData() == 10:
-            listaDoble.remove(siguiente)
+            listaDoble.remove(siguiente) # Remover el 10
             break
         siguiente = siguiente.getNext()
-
 
     listaDoble.printData()
 
 def main_2():
-    """# Lista simple
+    # Lista simple
     listaSimple = SimpleList()
     listaSimple.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
+    
     for userString in Utils.predefinidos[1:]:
-        listaSimple.addLast(
-            Utils.convertStringToUser(userString)
-        )
+        user = Utils.convertStringToUser(userString)
+        listaSimple.addLast(user)
 
     listaSimple.printData()
 
@@ -532,7 +534,7 @@ def main_2():
     )
 
     listaSimple.printData()
-"""
+
     # Lista doble
     listaDoble = DoubleList()
     listaDoble.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
