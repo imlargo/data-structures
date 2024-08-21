@@ -477,7 +477,7 @@ def main_1():
 
     listaSimple.printData()
 
-    print("Despues de eliminar 2, 10, 20:")
+    print("Despues de eliminar 1, 10, 20:")
 
     listaSimple.removeFirst() # Remover el 1
     listaSimple.removeLast() # Remover el 20
@@ -503,7 +503,7 @@ def main_1():
 
     listaDoble.printData()
     
-    print("Despues de eliminar 2, 10, 20:")
+    print("Despues de eliminar 1, 10, 20:")
     listaDoble.removeFirst() # Remover el 1
     listaDoble.removeLast() # Remover el 20
     siguiente = listaDoble.first()
@@ -535,6 +535,7 @@ def main_2():
 
     listaSimple.printData()
 
+    print("\n\n\nImplementacion con lista doble...\n\n\n")
     # Lista doble
     listaDoble = DoubleList()
     listaDoble.addFirst(Utils.convertStringToUser(Utils.predefinidos[0]))
@@ -553,6 +554,8 @@ def main_2():
     )
 
     listaDoble.printData()
+    
+    print("\n\nAgregar usuario en la tercera posicion\n\n")
 
     # Pedir un usuario e insertarlo después del tercer nodo
     usuario = Utils.createFromInput()
