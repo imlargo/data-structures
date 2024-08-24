@@ -23,7 +23,7 @@ func main() {
 
 	println("\n\n")
 
-	var heap heap.Heap[int] = heap.Heap[int]{Data: data, Size: cantidad}
+	heap := heap.Heap{Data: data, Size: cantidad}
 
 	heap.Build_max_heap()
 
@@ -35,5 +35,14 @@ func main() {
 
 	println("\n\n")
 
+	heap.Heap_sort()
+
 	println("Heap size: ", heap.GetSize())
+
+	// Imprimir el arreglo
+	println("Heapify: ")
+	for i := 0; i < heap.Size; i++ {
+		print(heap.Data[i], ", ")
+	}
+
 }
