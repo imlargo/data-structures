@@ -27,12 +27,10 @@ func (heap *Heap) Max_heapify(index int) []int {
 	left := heap.Left(index)
 	right := heap.Right(index)
 
-	var largest int
+	var largest int = index
 
 	if left < heap.Size && heap.Data[left] > heap.Data[index] {
 		largest = left
-	} else {
-		largest = index
 	}
 
 	if right < heap.Size && heap.Data[right] > heap.Data[largest] {
