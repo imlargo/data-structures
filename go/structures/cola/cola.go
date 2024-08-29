@@ -9,9 +9,11 @@ type Cola[T any] struct {
 func (cola *Cola[T]) GetSize() int {
 	return cola.Lista.GetSize()
 }
+
 func (cola *Cola[T]) IsEmpty() bool {
 	return cola.Lista.IsEmpty()
 }
+
 func (cola *Cola[T]) Enqueue(data T) {
 	var nodo lista_simple.NodoSimple[T] = lista_simple.NodoSimple[T]{Data: data}
 	cola.Lista.AddLast(&nodo)
