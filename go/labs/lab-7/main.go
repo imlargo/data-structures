@@ -63,11 +63,6 @@ func pruebaPriorityQueue() {
 	priotiryQueue.Build_max_heap()
 	priotiryQueue.Print()
 
-	// Heap Sort
-	println("Heap Sort: ")
-	priotiryQueue.Heap_sort()
-	priotiryQueue.Print()
-
 	// Max Heap Insert
 	println("Max Heap Insert: ")
 	priotiryQueue.MaxHeapInsert(100)
