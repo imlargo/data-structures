@@ -7,42 +7,81 @@ import (
 
 func main() {
 
+	println("Pruebas de Heap\n")
+	pruebaHeap()
+
+	println("\n\nPruebas de PriorityQueue\n")
+	pruebaPriorityQueue()
+
+}
+
+func pruebaHeap() {
+	// Implementacion heap
 	var cantidad int = 20
 
+	// Crear arreglo de numeros aleatorios
 	var data []int = make([]int, cantidad)
 	for i := 0; i < cantidad; i++ {
 		var num int = rand.IntN(100)
 		data[i] = num
 	}
 
-	// Imprimir el arreglo
-	println("Arreglo: ")
-	for i := 0; i < cantidad; i++ {
-		print(data[i], ", ")
-	}
-
-	println("\n\n")
-
+	// Inicializar el heap
+	println("Heap inicializado: ")
 	heap := heap.Heap{Data: data, Size: cantidad}
+	heap.Print()
 
+	// Construir el heap
+	println("Build Max Heap: ")
 	heap.Build_max_heap()
+	heap.Print()
 
-	// Imprimir el arreglo
-	println("Max heap: ")
-	for i := 0; i < heap.Size; i++ {
-		print(heap.Data[i], ", ")
-	}
-
-	println("\n\n")
-
+	// Heap Sort
+	println("Heap Sort: ")
 	heap.Heap_sort()
+	heap.Print()
+}
 
-	println("Heap size: ", heap.GetSize())
+func pruebaPriorityQueue() {
+	// Implementacion heap
+	var cantidad int = 20
 
-	// Imprimir el arreglo
-	println("Heapify: ")
-	for i := 0; i < heap.Size; i++ {
-		print(heap.Data[i], ", ")
+	// Crear arreglo de numeros aleatorios
+	var data []int = make([]int, cantidad)
+	for i := 0; i < cantidad; i++ {
+		var num int = rand.IntN(100)
+		data[i] = num
 	}
+
+	// Inicializar el heap
+	println("Heap inicializado: ")
+	priotiryQueue := heap.Heap{Data: data, Size: cantidad}
+	priotiryQueue.Print()
+
+	// Construir el heap
+	println("Build Max Heap: ")
+	priotiryQueue.Build_max_heap()
+	priotiryQueue.Print()
+
+	// Heap Sort
+	println("Heap Sort: ")
+	priotiryQueue.Heap_sort()
+	priotiryQueue.Print()
+
+	// Max Heap Insert
+	println("Max Heap Insert: ")
+	priotiryQueue.MaxHeapInsert(100)
+	priotiryQueue.Print()
+
+	// Heap Extract Max
+	println("Heap Extract Max: ")
+	max := priotiryQueue.HeapExtractMax()
+	println("Maximo extraido: ", max)
+	priotiryQueue.Print()
+
+	// Heap Maximum
+	println("Heap Maximum: ")
+	max = priotiryQueue.HeapMaximum()
+	println("Maximo: ", max)
 
 }

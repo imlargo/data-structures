@@ -1,6 +1,9 @@
 package heap
 
-import "math"
+import (
+	"math"
+	"strconv"
+)
 
 type Heap struct {
 	Data []int
@@ -74,7 +77,7 @@ func (heap *Heap) MaxHeapInsert(data int) {
 	heap.Data = append(heap.Data, data)
 	heap.Size += 1
 
-	index := heap.Size
+	index := heap.Size - 1
 	for index > 0 && heap.Data[heap.Parent(index)] < heap.Data[index] {
 		heap.Data[index], heap.Data[heap.Parent(index)] = heap.Data[heap.Parent(index)], heap.Data[index]
 		index = heap.Parent(index)
@@ -97,4 +100,18 @@ func (heap *Heap) HeapExtractMax() int {
 
 func (heap *Heap) HeapMaximum() int {
 	return heap.Data[0]
+}
+
+func (heap *Heap) Print() {
+
+	var cadena string = "[ "
+
+	// Imprimir el arreglo
+	for i := 0; i < heap.Size; i++ {
+		cadena += strconv.Itoa(heap.Data[i]) + ", "
+	}
+
+	cadena += " ]"
+
+	println(cadena)
 }
