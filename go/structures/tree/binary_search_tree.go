@@ -230,3 +230,17 @@ func (tree *BinarySearchTree[T]) MaxNode(nodo *Node[*BST_Entry[T]]) *Node[*BST_E
 func (tree *BinarySearchTree[T]) Predecesor(nodo *Node[*BST_Entry[T]]) *Node[*BST_Entry[T]] {
 	return tree.MaxNode(nodo.Left)
 }
+
+func (tree *BinarySearchTree[T]) PrintInorder(nodo *Node[*BST_Entry[T]], callback func(T)) {
+
+	if nodo.hasLeft() {
+		tree.PrintInorder(nodo.Left, callback)
+	}
+
+	if nodo.hasRight() {
+		tree.PrintInorder(nodo.Right, callback)
+	}
+
+	callback(nodo.Data.GetData())
+
+}
