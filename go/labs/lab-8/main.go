@@ -4,7 +4,7 @@ import "data-structures/structures/tree"
 
 func main() {
 	var root tree.Node[int] = tree.Node[int]{Data: 1}
-	arbol := tree.BinaryTree[int]{
+	arbol := tree.BinarySearchTree[int]{
 		Root: &root,
 	}
 

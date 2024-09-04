@@ -5,24 +5,24 @@ import (
 	"data-structures/structures/lista_simple"
 )
 
-type BinaryTree[T any] struct {
+type BinarySearchTree[T any] struct {
 	Root *Node[T]
 	Size int
 }
 
-func (tree *BinaryTree[T]) getRoot() *Node[T] {
+func (tree *BinarySearchTree[T]) getRoot() *Node[T] {
 	return tree.Root
 }
 
-func (tree *BinaryTree[T]) IsEmpty() bool {
+func (tree *BinarySearchTree[T]) IsEmpty() bool {
 	return tree.Size == 0
 }
 
-func (tree *BinaryTree[T]) IsRoot(nodo *Node[T]) bool {
+func (tree *BinarySearchTree[T]) IsRoot(nodo *Node[T]) bool {
 	return tree.getRoot() == nodo
 }
 
-func (tree *BinaryTree[T]) Parent(nodo *Node[T]) *Node[T] {
+func (tree *BinarySearchTree[T]) Parent(nodo *Node[T]) *Node[T] {
 
 	if tree.IsRoot(nodo) {
 		return nil
@@ -47,7 +47,7 @@ func (tree *BinaryTree[T]) Parent(nodo *Node[T]) *Node[T] {
 
 	return temp
 }
-func (tree *BinaryTree[T]) Depth(nodo *Node[T]) int {
+func (tree *BinarySearchTree[T]) Depth(nodo *Node[T]) int {
 
 	if tree.IsRoot(nodo) {
 		return 0
@@ -56,7 +56,7 @@ func (tree *BinaryTree[T]) Depth(nodo *Node[T]) int {
 	return 1 + tree.Depth(tree.Parent(nodo))
 }
 
-func (tree *BinaryTree[T]) Height(nodo *Node[T]) int {
+func (tree *BinarySearchTree[T]) Height(nodo *Node[T]) int {
 	if !nodo.isInternal() {
 		return 0
 	}
@@ -75,21 +75,21 @@ func (tree *BinaryTree[T]) Height(nodo *Node[T]) int {
 	return 1 + h
 }
 
-func (tree *BinaryTree[T]) AddRoot(nodo *Node[T]) {
+func (tree *BinarySearchTree[T]) AddRoot(nodo *Node[T]) {
 	tree.Root = nodo
 	tree.Size = 1
 }
-func (tree *BinaryTree[T]) InsertLeft(nodo1 *Node[T], nodo2 *Node[T]) {
+func (tree *BinarySearchTree[T]) InsertLeft(nodo1 *Node[T], nodo2 *Node[T]) {
 	nodo1.Left = nodo2
 	tree.Size++
 }
 
-func (tree *BinaryTree[T]) InsertRight(nodo1 *Node[T], nodo2 *Node[T]) {
+func (tree *BinarySearchTree[T]) InsertRight(nodo1 *Node[T], nodo2 *Node[T]) {
 	nodo1.Right = nodo2
 	tree.Size++
 }
 
-func (tree *BinaryTree[T]) Remove(nodo *Node[T]) {
+func (tree *BinarySearchTree[T]) Remove(nodo *Node[T]) {
 
 	var parent *Node[T] = tree.Parent(nodo)
 
@@ -128,7 +128,7 @@ func (tree *BinaryTree[T]) Remove(nodo *Node[T]) {
 
 }
 
-func (tree *BinaryTree[T]) Min(nodo *Node[T]) T {
+func (tree *BinarySearchTree[T]) Min(nodo *Node[T]) T {
 	if nodo.hasLeft() {
 		return tree.Min(nodo.Left)
 	} else {
@@ -136,10 +136,23 @@ func (tree *BinaryTree[T]) Min(nodo *Node[T]) T {
 	}
 }
 
-func (tree *BinaryTree[T]) Max(nodo *Node[T]) T {
+func (tree *BinarySearchTree[T]) Max(nodo *Node[T]) T {
 	if nodo.hasRight() {
 		return tree.Max(nodo.Right)
 	} else {
 		return nodo.Data
 	}
+}
+
+// Binary Search Tree
+func (tree *BinarySearchTree[T]) Find(key int) {
+
+}
+
+func (tree *BinarySearchTree[T]) Insert(data T, key int) {
+
+}
+
+func (tree *BinarySearchTree[T]) RemoveByKey(key int) *T {
+	return nil
 }
