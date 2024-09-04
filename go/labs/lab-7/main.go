@@ -15,16 +15,22 @@ func main() {
 
 }
 
-func pruebaHeap() {
-	// Implementacion heap
-	var cantidad int = 20
-
+func crearArregloAleatorio(cantidad int) []int {
 	// Crear arreglo de numeros aleatorios
 	var data []int = make([]int, cantidad)
 	for i := 0; i < cantidad; i++ {
 		var num int = rand.IntN(100)
 		data[i] = num
 	}
+
+	return data
+}
+
+func pruebaHeap() {
+	// Implementacion heap
+	var cantidad int = 20
+
+	var data []int = crearArregloAleatorio(cantidad)
 
 	// Inicializar el heap
 	println("Heap inicializado: ")
@@ -47,11 +53,7 @@ func pruebaPriorityQueue() {
 	var cantidad int = 20
 
 	// Crear arreglo de numeros aleatorios
-	var data []int = make([]int, cantidad)
-	for i := 0; i < cantidad; i++ {
-		var num int = rand.IntN(100)
-		data[i] = num
-	}
+	var data []int = crearArregloAleatorio(cantidad)
 
 	// Inicializar el heap
 	println("Heap inicializado: ")
