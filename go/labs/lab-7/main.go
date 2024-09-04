@@ -7,23 +7,12 @@ import (
 
 func main() {
 
-	println("Pruebas de Heap\n")
+	println("#  - - - Pruebas de Heap - - -  #\n")
 	pruebaHeap()
 
-	println("\n\nPruebas de PriorityQueue\n")
+	println("\n\n\n#  - - - Pruebas de PriorityQueue - - -  #\n")
 	pruebaPriorityQueue()
 
-}
-
-func crearArregloAleatorio(cantidad int) []int {
-	// Crear arreglo de numeros aleatorios
-	var data []int = make([]int, cantidad)
-	for i := 0; i < cantidad; i++ {
-		var num int = rand.IntN(100)
-		data[i] = num
-	}
-
-	return data
 }
 
 func pruebaHeap() {
@@ -33,17 +22,17 @@ func pruebaHeap() {
 	var data []int = crearArregloAleatorio(cantidad)
 
 	// Inicializar el heap
-	println("Heap inicializado: ")
+	println("Heap inicializado aleatoriamente: ")
 	heap := heap.Heap{Data: data, Size: cantidad}
 	heap.Print()
 
 	// Construir el heap
-	println("Build Max Heap: ")
+	println("\nBuild Max Heap: ")
 	heap.Build_max_heap()
 	heap.Print()
 
 	// Heap Sort
-	println("Heap Sort: ")
+	println("\nHeap Sort: ")
 	heap.Heap_sort()
 	heap.Print()
 }
@@ -56,29 +45,40 @@ func pruebaPriorityQueue() {
 	var data []int = crearArregloAleatorio(cantidad)
 
 	// Inicializar el heap
-	println("Heap inicializado: ")
+	println("Heap inicializado aleatoriamente: ")
 	priotiryQueue := heap.Heap{Data: data, Size: cantidad}
 	priotiryQueue.Print()
 
 	// Construir el heap
-	println("Build Max Heap: ")
+	println("\nBuild Max Heap: ")
 	priotiryQueue.Build_max_heap()
 	priotiryQueue.Print()
 
 	// Max Heap Insert
-	println("Max Heap Insert: ")
-	priotiryQueue.MaxHeapInsert(100)
+	println("\nMax Heap Insert: ", 101)
+	priotiryQueue.MaxHeapInsert(101)
 	priotiryQueue.Print()
 
 	// Heap Extract Max
-	println("Heap Extract Max: ")
+	println("\nHeap Extract Max: ")
 	max := priotiryQueue.HeapExtractMax()
 	println("Maximo extraido: ", max)
 	priotiryQueue.Print()
 
 	// Heap Maximum
-	println("Heap Maximum: ")
+	println("\nHeap Maximum: ")
 	max = priotiryQueue.HeapMaximum()
 	println("Maximo: ", max)
 
+}
+
+func crearArregloAleatorio(cantidad int) []int {
+	// Crear arreglo de numeros aleatorios
+	var data []int = make([]int, cantidad)
+	for i := 0; i < cantidad; i++ {
+		var num int = rand.IntN(100)
+		data[i] = num
+	}
+
+	return data
 }
