@@ -87,9 +87,11 @@ func (heap *Heap) MaxHeapInsert(data int) {
 
 func (heap *Heap) HeapExtractMax() int {
 	max := heap.Data[0]
+
+	// Intercambiar primer elemento con el ultimo
 	heap.Data[0] = heap.Data[heap.Size-1]
 
-	// Eliminar ultimo elemento
+	// Eliminar ultimo elemento del array
 	heap.Data = heap.Data[:heap.Size-1]
 	heap.Size -= 1
 
