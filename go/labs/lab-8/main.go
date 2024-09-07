@@ -16,7 +16,7 @@ func main() {
 	arbolBinarioBusqueda := tree.BinarySearchTree[*Usuario]{}
 
 	for _, usuario := range usuarios {
-		println("Insertando usuario: ", usuario.GetKey())
+		println("Insertando usuario: ", usuario.GetKey(), usuario.Nombre)
 		arbolBinarioBusqueda.Insert(usuario, usuario.GetKey())
 	}
 
@@ -25,4 +25,7 @@ func main() {
 	})
 
 	println(arbolBinarioBusqueda.Max(arbolBinarioBusqueda.Root).Nombre)
+
+	// Metodos
+
 }
