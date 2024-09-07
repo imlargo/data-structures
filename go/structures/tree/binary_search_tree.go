@@ -57,6 +57,11 @@ func (tree *BinarySearchTree[T]) Depth(nodo *Node[*BST_Entry[T]]) int {
 }
 
 func (tree *BinarySearchTree[T]) Height(nodo *Node[*BST_Entry[T]]) int {
+
+	if nodo == nil {
+		return 0
+	}
+
 	if !nodo.isInternal() {
 		return 0
 	}
@@ -237,10 +242,10 @@ func (tree *BinarySearchTree[T]) PrintInorder(nodo *Node[*BST_Entry[T]], callbac
 		tree.PrintInorder(nodo.Left, callback)
 	}
 
+	callback(nodo.Data.GetData())
+
 	if nodo.hasRight() {
 		tree.PrintInorder(nodo.Right, callback)
 	}
-
-	callback(nodo.Data.GetData())
 
 }

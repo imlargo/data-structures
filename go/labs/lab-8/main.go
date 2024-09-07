@@ -21,11 +21,12 @@ func main() {
 	}
 
 	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, func(u *Usuario) {
-		println("Usuario: ", u.Nombre)
+		println(u.Nombre)
 	})
 
-	println(arbolBinarioBusqueda.Max(arbolBinarioBusqueda.Root).Nombre)
-
 	// Metodos
+	arbolBinarioBusqueda.PrintTree(func(u *Usuario) string {
+		return u.Nombre
+	})
 
 }
