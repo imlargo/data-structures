@@ -112,11 +112,13 @@ func (tree *BinaryTree[T]) Remove(nodo *Node[T]) {
 
 		nodo.Left = nil
 		nodo.Right = nil
+		nodo = nil
 
 		tree.Size--
 		return
 	}
 
+	// Si es hoja
 	if parent.Left == nodo {
 		parent.Left = nil
 	} else {
