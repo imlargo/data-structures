@@ -20,13 +20,31 @@ func main() {
 		arbolBinarioBusqueda.Insert(usuario, usuario.GetKey())
 	}
 
-	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, func(u *Usuario) {
-		println(u.Nombre)
-	})
+	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, getNombreUsuario)
 
 	// Metodos
-	arbolBinarioBusqueda.PrintTree(func(u *Usuario) string {
-		return u.Nombre
-	})
+	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
 
+	// Test Find
+	var testKey int = usuarios[5].GetKey() // Mateo
+	usuarioEncontrado := arbolBinarioBusqueda.Find(testKey)
+	println("Usuario encontrado: ", usuarioEncontrado.Data.Value.Nombre)
+
+	// Test Insert
+	usuarioNuevo := &Usuario{Nombre: "Sebastian", Documento: "99999999"}
+	arbolBinarioBusqueda.Insert(usuarioNuevo, usuarioNuevo.GetKey())
+	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
+
+	// Test remove
+	usuarioDiana := usuarios[4]
+	println("Eliminando usuario: ", usuarioDiana.GetKey(), usuarioDiana.Nombre)
+	arbolBinarioBusqueda.RemoveByKey(usuarioDiana.GetKey())
+	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
+
+	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, getNombreUsuario)
+
+}
+
+func getNombreUsuario(u *Usuario) string {
+	return u.Nombre
 }
