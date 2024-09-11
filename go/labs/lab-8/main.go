@@ -2,6 +2,7 @@ package main
 
 import (
 	"data-structures/structures/tree"
+	"strconv"
 )
 
 func main() {
@@ -33,6 +34,7 @@ func main() {
 	// Test Insert
 	usuarioNuevo := &Usuario{Nombre: "Sebastian", Documento: "99999999"}
 	arbolBinarioBusqueda.Insert(usuarioNuevo, usuarioNuevo.GetKey())
+	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, getNombreUsuario)
 	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
 
 	// Test remove
@@ -44,5 +46,5 @@ func main() {
 }
 
 func getNombreUsuario(u *Usuario) string {
-	return u.Nombre
+	return strconv.Itoa(u.GetKey()) + "." + u.Nombre
 }
