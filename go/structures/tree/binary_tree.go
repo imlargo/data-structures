@@ -31,21 +31,22 @@ func (tree *BinaryTree[T]) Parent(nodo *Node[T]) *Node[T] {
 	cola := cola.Cola[*Node[T]]{Lista: &lista_simple.ListaSimple[*Node[T]]{}}
 	cola.Enqueue(tree.getRoot())
 
-	temp := tree.Root
+	var temp *Node[T]
 
-	for !cola.IsEmpty() && cola.First().Left != nodo && cola.First().Right != nodo {
-
-		temp := cola.Dequeue()
+	for !cola.IsEmpty() {
+		temp = cola.Dequeue()
+		if temp.Left == nodo || temp.Right == nodo {
+			return temp
+		}
 		if temp.hasLeft() {
 			cola.Enqueue(temp.Left)
 		}
 		if temp.hasRight() {
 			cola.Enqueue(temp.Right)
 		}
-
 	}
 
-	return temp
+	return nil
 }
 func (tree *BinaryTree[T]) Depth(nodo *Node[T]) int {
 
