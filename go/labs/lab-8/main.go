@@ -21,27 +21,33 @@ func main() {
 	}
 
 	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, getNombreUsuario)
-
-	// Metodos
 	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
+
+	/* # - - - Probar metodos de arbol binario de busqueda - - - # */
 
 	// Test Find
-	var testKey int = usuarios[5].GetKey() // Mateo
-	usuarioEncontrado := arbolBinarioBusqueda.Find(testKey)
-	println("Usuario encontrado: ", usuarioEncontrado.Data.Value.Nombre)
+	// var testKey int = usuarios[5].GetKey() // Mateo
+	// usuarioEncontrado := arbolBinarioBusqueda.Find(testKey)
+	// println("Usuario encontrado: ", usuarioEncontrado.Data.Value.Nombre)
 
 	// Test Insert
-	usuarioNuevo := &Usuario{Nombre: "Sebastian", Documento: "99999999"}
-	arbolBinarioBusqueda.Insert(usuarioNuevo, usuarioNuevo.GetKey())
-	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
+	// usuarioNuevo := &Usuario{Nombre: "Sebastian", Documento: "99999999"}
+	// arbolBinarioBusqueda.Insert(usuarioNuevo, usuarioNuevo.GetKey())
+	// arbolBinarioBusqueda.PrintTree(getNombreUsuario)
 
 	// Test remove
-	usuarioDiana := usuarios[4]
-	println("Eliminando usuario: ", usuarioDiana.GetKey(), usuarioDiana.Nombre)
-	arbolBinarioBusqueda.RemoveByKey(usuarioDiana.GetKey())
-	arbolBinarioBusqueda.PrintTree(getNombreUsuario)
+	// usuarioDiana := usuarios[4]
 
-	arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, getNombreUsuario)
+	println("Padre de ", usuarios[1].Nombre, " es: ", arbolBinarioBusqueda.Parent(arbolBinarioBusqueda.Find(usuarios[1].GetKey())).Data.Value.Nombre)
+	println("Padre de ", usuarios[2].Nombre, " es: ", arbolBinarioBusqueda.Parent(arbolBinarioBusqueda.Find(usuarios[2].GetKey())).Data.Value.Nombre)
+	println("Padre de ", usuarios[3].Nombre, " es: ", arbolBinarioBusqueda.Parent(arbolBinarioBusqueda.Find(usuarios[3].GetKey())).Data.Value.Nombre)
+	println("Padre de ", usuarios[4].Nombre, " es: ", arbolBinarioBusqueda.Parent(arbolBinarioBusqueda.Find(usuarios[4].GetKey())).Data.Value.Nombre)
+	println("Padre de ", usuarios[5].Nombre, " es: ", arbolBinarioBusqueda.Parent(arbolBinarioBusqueda.Find(usuarios[5].GetKey())).Data.Value.Nombre)
+
+	// println("Eliminando usuario: ", usuarioDiana.GetKey(), usuarioDiana.Nombre)
+	// arbolBinarioBusqueda.RemoveByKey(usuarioDiana.GetKey())
+	// arbolBinarioBusqueda.PrintTree(getNombreUsuario)
+	// arbolBinarioBusqueda.PrintInorder(arbolBinarioBusqueda.Root, getNombreUsuario)
 
 }
 
