@@ -86,3 +86,12 @@ func (listaDoble *ListaDoble[T]) RemoveLast() {
 	listaDoble.Tail.SetNext(nil)
 	listaDoble.Size--
 }
+func (listaDoble *ListaDoble[T]) Remove(nodo *NodoDoble[T]) T {
+	data := nodo.GetData()
+	prev := nodo.GetPrev()
+	nextNode := nodo.GetNext()
+	prev.SetNext(nextNode)
+	nextNode.SetPrev(prev)
+	listaDoble.Size--
+	return data
+}
