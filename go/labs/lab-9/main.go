@@ -31,4 +31,30 @@ func main() {
 		println(i, " -> ", lista.Size)
 	}
 
+	//
+	problema2()
+
+}
+
+func problema2() {
+	var size int = 10
+	hashTable := hash_table.New[int](size, hash_table.HashFuncDivision)
+
+	// Crear arreglo de numeros aleatorios
+	var nums []int = crearArregloAleatorio(20)
+	for _, num := range nums {
+		println("Insertando numero: ", num)
+		hashTable.Insert(num, num)
+	}
+
+	// Buscar un numero
+	var num int = nums[13]
+	println("Buscando numero: ", num)
+	var result, _ = hashTable.Search(num)
+	println("Resultado: ", result)
+
+	// Eliminar un numero
+	println("Eliminando numero: ", num)
+	// hashTable.Delete(num)
+
 }
