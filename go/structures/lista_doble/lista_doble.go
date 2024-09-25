@@ -75,7 +75,12 @@ func (listaDoble *ListaDoble[T]) RemoveFirst() {
 		return
 	}
 	listaDoble.Head = listaDoble.Head.GetNext()
-	listaDoble.Head.SetPrev(nil)
+	if listaDoble.Head != nil {
+		listaDoble.Head.SetPrev(nil)
+	} else {
+		listaDoble.Tail = nil
+	}
+
 	listaDoble.Size--
 }
 func (listaDoble *ListaDoble[T]) RemoveLast() {
@@ -83,11 +88,27 @@ func (listaDoble *ListaDoble[T]) RemoveLast() {
 		return
 	}
 	listaDoble.Tail = listaDoble.Tail.GetPrev()
-	listaDoble.Tail.SetNext(nil)
+	if listaDoble.Tail != nil {
+		listaDoble.Tail.SetNext(nil)
+	} else {
+		listaDoble.Head = nil
+	}
+
 	listaDoble.Size--
 }
 func (listaDoble *ListaDoble[T]) Remove(nodo *NodoDoble[T]) T {
 	data := nodo.GetData()
+
+	if nodo.Prev == nil {
+		listaDoble.RemoveFirst()
+		return data
+	}
+
+	if nodo.Next == nil {
+		listaDoble.RemoveLast()
+		return data
+	}
+
 	prev := nodo.GetPrev()
 	nextNode := nodo.GetNext()
 	prev.SetNext(nextNode)
